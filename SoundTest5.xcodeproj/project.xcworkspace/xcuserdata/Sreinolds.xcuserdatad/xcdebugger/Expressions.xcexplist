@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "writeFFTSamples:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "writeSineWave:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SetupAndRun:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawWaveForm():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "waveform">
+            </PersistentString>
+            <PersistentString
+               value = "view.layer.sublayers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "ToneSlider.Value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UpdateBuffer:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "writeSquareWave:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "BiQuadLowPassFilter:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "FilterParams">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "writeWaveform:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawFFT():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "fastFourierTransform:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "(FFTArray + (i * 2) + 1)">
+            </PersistentString>
+            <PersistentString
+               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i">
+            </PersistentString>
+            <PersistentString
+               value = "(FFTArray + (i * 2))">
+            </PersistentString>
+            <PersistentString
+               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i + 1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

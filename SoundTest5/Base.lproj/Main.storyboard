@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad10_5" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SoundTest5" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="440" minValue="40" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-WI-IEd">
+                                <rect key="frame" x="8" y="402" width="1096" height="31"/>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="18000" minValue="100" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
+                                <rect key="frame" x="-2" y="462" width="1116" height="31"/>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.10000000000000001" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
+                                <rect key="frame" x="6" y="522" width="1100" height="31"/>
+                            </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-Ig-NJq">
+                                <rect key="frame" x="57" y="658" width="322" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Sine"/>
+                                <connections>
+                                    <action selector="WaveformButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YEH-hE-Rq6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="po5-T2-Cby" secondAttribute="trailing" constant="8" id="2bh-ot-2B7"/>
+                            <constraint firstItem="po5-T2-Cby" firstAttribute="top" secondItem="CC5-yK-5IM" secondAttribute="bottom" constant="30" id="9Bz-SZ-RkB"/>
+                            <constraint firstItem="5bI-WI-IEd" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="MR5-FW-ytc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5bI-WI-IEd" secondAttribute="trailing" constant="10" id="NIJ-cc-CGo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CC5-yK-5IM" secondAttribute="trailing" id="NTK-Nq-mjB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="po5-T2-Cby" secondAttribute="trailing" constant="8" id="QrH-Ds-0t0"/>
+                            <constraint firstItem="CC5-yK-5IM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Y07-2e-S7E"/>
+                            <constraint firstItem="5bI-WI-IEd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eCA-KS-dtD"/>
+                            <constraint firstItem="po5-T2-Cby" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="k2S-IO-TWU"/>
+                            <constraint firstItem="CC5-yK-5IM" firstAttribute="top" secondItem="5bI-WI-IEd" secondAttribute="bottom" constant="30" id="sM6-p7-X05"/>
+                            <constraint firstItem="5bI-WI-IEd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wsA-y8-BRe"/>
+                            <constraint firstItem="po5-T2-Cby" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="z0l-eV-KQZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="FilterCutoffSlider" destination="CC5-yK-5IM" id="L4k-9c-1cg"/>
+                        <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
+                        <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>
+                        <outlet property="WaveformButton" destination="2kc-Ig-NJq" id="HTO-Rx-m91"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.51079136690649" y="132.37410071942446"/>
+        </scene>
+    </scenes>
+</document>
