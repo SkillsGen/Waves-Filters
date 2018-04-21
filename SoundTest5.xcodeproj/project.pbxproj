@@ -17,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		20412750208A06AE005BA45B /* Filters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Filters.c; sourceTree = "<group>"; };
+		2043C2E2208B322C00E7A23F /* Waveforms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Waveforms.c; sourceTree = "<group>"; };
 		20D38C552061043A0021A938 /* Main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Main.h; sourceTree = "<group>"; };
 		20EFA2DB205FC06C009FF1C0 /* SoundTest5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundTest5.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EFA2DE205FC06C009FF1C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 				20EFA2F6205FC184009FF1C0 /* SoundTest5-Bridging-Header.h */,
 				20D38C552061043A0021A938 /* Main.h */,
 				20EFA2F7205FC184009FF1C0 /* main.c */,
+				2043C2E2208B322C00E7A23F /* Waveforms.c */,
 				20412750208A06AE005BA45B /* Filters.c */,
 				20EFA2DE205FC06C009FF1C0 /* AppDelegate.swift */,
 				20EFA2E0205FC06C009FF1C0 /* ViewController.swift */,
