@@ -45,7 +45,8 @@ typedef enum filter_type
     ExponentialLowPass,
     BiQuadLowPass,
     BiQuadHighPass,
-    ConstSkirtBandPass
+    ConstSkirtBandPass,
+    ZeroPeakGainBandPass
 } filter_type;
 
 typedef struct waveform_params

@@ -119,12 +119,6 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
     int ArrayLength = ComplexSampleCount * 2;
     
     float *FFTArray = SoundOutput->SoundBuffer.Waveform.FFTArray;
-
-    for(int i = 1; i < ArrayLength; i += 2)
-    {
-	Assert(FFTArray[i] == 0);	
-    }
-
     
     int j = 0;
     for(int i = 0; i < ComplexSampleCount; i +=2)

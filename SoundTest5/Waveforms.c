@@ -1,3 +1,12 @@
+//
+//  Waveforms.c
+//  SoundTest5
+//
+//  Created by Sebastian Reinolds on 21/04/2018.
+//  Copyright © 2018 Sebastian Reinolds. All rights reserved.
+//
+
+
 void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
     bool FirstTime = true;
@@ -22,8 +31,7 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
         
 	int16 UnfilteredValue = (1 * sineStep * 1000);
 
-	static filter_params FilterParams = {};
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         
         *SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
@@ -34,6 +42,7 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
         }
     }
 }
+
 
 void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
@@ -61,9 +70,7 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
         
         int16 UnfilteredValue = (1 * sign * 1000);
 
-	static filter_params FilterParams = {};
-
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
 	    
         *SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
@@ -74,6 +81,7 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
         }
     }
 }
+
 
 void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
@@ -96,9 +104,7 @@ void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
         }
 	int16 UnfilteredValue = (1.0f - (SawStepAmount * WaveformParams->wavePeriodIndex)) * 1000;
 
-	static filter_params FilterParams = {};
-
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
 	*SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
         
@@ -134,9 +140,7 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 	
 	int16 UnfilteredValue = ((2000/HalfPeriod) * (HalfPeriod - temp)) - 1000;
 
-	static filter_params FilterParams = {};
-
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
 	*SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
         
@@ -162,9 +166,7 @@ void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 	
         float UnfilteredValue = (rand() / (float)RAND_MAX - 0.5f) * 1000;
 
-        static filter_params FilterParams = {};
-
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         
         *SoundOutput->WriteCursor++ = (int16)FilteredValue;
         *SoundOutput->WriteCursor++ = (int16)FilteredValue;

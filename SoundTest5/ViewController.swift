@@ -68,6 +68,9 @@ class ViewController: UIViewController {
             FilterButton.setTitle("ConstSkirt BandPass", for: .normal)
             FilterCutoffSlider.value = 5000
         case ConstSkirtBandPass:
+            FilterType = ZeroPeakGainBandPass
+            FilterButton.setTitle("ZeroPeakGain BandPass", for: .normal)
+        case ZeroPeakGainBandPass:
             FilterType = NoFilter
             FilterButton.setTitle("No Filter", for: .normal)
         default:
