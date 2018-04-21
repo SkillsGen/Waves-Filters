@@ -1,5 +1,5 @@
 //
-//  main.cpp
+//  main.c
 //  SoundTest3
 //
 //  Created by Sebastian Reinolds on 09/03/2018.
@@ -7,6 +7,7 @@
 //
 
 #include "Main.h"
+#include "Filters.c"
 
 OSStatus OSXAudioUnitCallback(void *inRefCon,
                               AudioUnitRenderActionFlags *ioActionFlags,
@@ -228,111 +229,6 @@ void writeFFTSamples(osx_sound_output *SoundOutput)
     }
 }
 
-//     Basic Filter Outline
-//     y[n] = (b0/a0)*x[n] + (b1/a0)*x[n-1] + (b2/a0)*x[n-2] - (a1/a0)*y[n-1] - (a2/a0)*y[n-2]
-
-int16 BiQuadLowPassFilter(int unfilteredValue, osx_sound_output *SoundOutput, filter_params *FilterParams)
-{
-    if(!FilterParams->isInitaliased ||
-       FilterParams->FilterFrequency != SoundOutput->SoundBuffer.FilterFrequency ||
-       FilterParams->Q != SoundOutput->SoundBuffer.Q)
-    {
-	FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
-        FilterParams->Q = SoundOutput->SoundBuffer.Q;
-            
-	FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
-					  SoundOutput->SoundBuffer.SamplesPerSecond);
-	FilterParams->cosw0 = cos(FilterParams->w0);
-	FilterParams->sinw0 = sin(FilterParams->w0);
-
-	FilterParams->alpha = FilterParams->sinw0 / (2 * FilterParams->Q);
-        FilterParams->a0 = 1 + FilterParams->alpha;
-        FilterParams->a1 = -2 * FilterParams->cosw0;
-        FilterParams->a2 = 1 - FilterParams->alpha;
-	
-	//b values only change if filter freq changes
-	FilterParams->b0 = (1 - FilterParams->cosw0) / 2;
-	FilterParams->b1 = 1 - FilterParams->cosw0;
-	FilterParams->b2 = FilterParams->b0;
-          
-	FilterParams->isInitaliased = true;
-    }
-    
-    int16 FilteredValue = ((FilterParams->b0 / FilterParams->a0) * unfilteredValue) +
-                          ((FilterParams->b1 / FilterParams->a0) * FilterParams->unFilterednMinus1) +
-                          ((FilterParams->b2 / FilterParams->a0) * FilterParams->unFilterednMinus2) -
-                          ((FilterParams->a1 / FilterParams->a0) * FilterParams->FilterednMinus1) -
-                          ((FilterParams->a2 / FilterParams->a0) * FilterParams->FilterednMinus2);
-    
-    FilterParams->unFilterednMinus2 = FilterParams->unFilterednMinus1;
-    FilterParams->unFilterednMinus1 = unfilteredValue;
-    
-    FilterParams->FilterednMinus2 = FilterParams->FilterednMinus1;
-    FilterParams->FilterednMinus1 = FilteredValue;
-    
-    return FilteredValue;
-}
-
-int16 BiQuadHighPassFilter(int unfilteredValue, osx_sound_output *SoundOutput, filter_params *FilterParams)
-{
-    filter_type FilterType = BiQuadHighPass;
-    if(!FilterParams->isInitaliased ||
-       FilterParams->FilterFrequency != SoundOutput->SoundBuffer.FilterFrequency ||
-       FilterParams->Q != SoundOutput->SoundBuffer.Q ||
-       FilterParams->FilterType != FilterType)
-    {
-	FilterParams->FilterType = FilterType;
-	FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
-	FilterParams->Q = SoundOutput->SoundBuffer.Q;
-
-	FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
-					  SoundOutput->SoundBuffer.SamplesPerSecond);
-	FilterParams->cosw0 = cos(FilterParams->w0);
-	FilterParams->sinw0 = sin(FilterParams->w0);
-
-	FilterParams->alpha = FilterParams->sinw0 / (2 * FilterParams->Q);
-	FilterParams->a0 = 1 + FilterParams->alpha;
-	FilterParams->a1 = -2 * FilterParams->cosw0;
-	FilterParams->a2 = 1 - FilterParams->alpha;
-      
-	//b values only change if filter freq changes
-	FilterParams->b0 = (1 + FilterParams->cosw0) / 2;
-	FilterParams->b1 = -(1 + FilterParams->cosw0);
-	FilterParams->b2 = FilterParams->b0;
-
-	FilterParams->isInitaliased = true;
-    }
-
-    int16 FilteredValue = ((FilterParams->b0 / FilterParams->a0) * unfilteredValue) +
-                          ((FilterParams->b1 / FilterParams->a0) * FilterParams->unFilterednMinus1) +
-                          ((FilterParams->b2 / FilterParams->a0) * FilterParams->unFilterednMinus2) -
-                          ((FilterParams->a1 / FilterParams->a0) * FilterParams->FilterednMinus1) -
-                          ((FilterParams->a2 / FilterParams->a0) * FilterParams->FilterednMinus2);
-    
-    FilterParams->unFilterednMinus2 = FilterParams->unFilterednMinus1;
-    FilterParams->unFilterednMinus1 = unfilteredValue;
-    
-    FilterParams->FilterednMinus2 = FilterParams->FilterednMinus1;
-    FilterParams->FilterednMinus1 = FilteredValue;
-    
-    return FilteredValue;
-}
-
-
-int16 ExponentialFilter(int UnfilteredValue, osx_sound_output *SoundOutput)
-{
-    static int16 CurrentValue = 0;
-    
-    float TimeConstant = (1 / (2 * pi32 * SoundOutput->SoundBuffer.FilterFrequency));
-    float alpha = (SoundOutput->SoundBuffer.TimeInterval /
-                   (SoundOutput->SoundBuffer.TimeInterval + TimeConstant));
-    
-    int16 Result = CurrentValue + alpha * (UnfilteredValue - CurrentValue);
-    CurrentValue = Result;
-    
-    return Result;
-}
-
 
 void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
@@ -346,10 +242,11 @@ void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 	    FirstTime = false;
 	}
 	
-        float RandomValue = (rand() / (float)RAND_MAX - 0.5f) * 1000;
+        float UnfilteredValue = (rand() / (float)RAND_MAX - 0.5f) * 1000;
 
         static filter_params FilterParams = {};
-        int16 FilteredValue = BiQuadLowPassFilter(RandomValue, SoundOutput, &FilterParams);
+
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
         
         *SoundOutput->WriteCursor++ = (int16)FilteredValue;
         *SoundOutput->WriteCursor++ = (int16)FilteredValue;
@@ -389,12 +286,13 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
         int16 UnfilteredValue = (1 * sign * 1000);
         
         //Simple exponential filter
-//        int16 FilteredValue = ExponentialFilter(UnfilteredValue, SoundOutput);
+//        int16 FilteredValue = ExponentialLowPassFilter(UnfilteredValue, SoundOutput);
         
         //BiQuadLowPass
 	static filter_params FilterParams = {};
-        int16 FilteredValue = BiQuadHighPassFilter(UnfilteredValue, SoundOutput, &FilterParams);
-        
+
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
+	    
         *SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
         
@@ -428,11 +326,10 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
         
         double sineStep = sin(tSine);
         
-        //Simple exponential filter
+	int16 UnfilteredValue = (1 * sineStep * 1000);
 
-
-        int16 UnfilteredValue = (1 * sineStep * 1000);
-        int16 FilteredValue = ExponentialFilter(UnfilteredValue, SoundOutput);
+	static filter_params FilterParams = {};
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
         
         *SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
@@ -467,7 +364,7 @@ void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 
 	static filter_params FilterParams = {};
 
-	int16 FilteredValue = BiQuadLowPassFilter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
 	*SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
         
@@ -504,7 +401,7 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 
 	static filter_params FilterParams = {};
 
-	int16 FilteredValue = BiQuadLowPassFilter(UnfilteredValue, SoundOutput, &FilterParams);
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput, &FilterParams);
 	*SoundOutput->WriteCursor++ = FilteredValue;
         *SoundOutput->WriteCursor++ = FilteredValue;
         

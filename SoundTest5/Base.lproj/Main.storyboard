@@ -21,10 +21,10 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="440" minValue="40" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-WI-IEd">
                                 <rect key="frame" x="8" y="402" width="1096" height="31"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="18000" minValue="100" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20000" minValue="10" maxValue="20000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
                                 <rect key="frame" x="-2" y="462" width="1116" height="31"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.10000000000000001" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
                                 <rect key="frame" x="6" y="522" width="1100" height="31"/>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-Ig-NJq">
@@ -34,6 +34,14 @@
                                 <state key="normal" title="Sine"/>
                                 <connections>
                                     <action selector="WaveformButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YEH-hE-Rq6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGG-eE-33g">
+                                <rect key="frame" x="572" y="666" width="200" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="No Filter"/>
+                                <connections>
+                                    <action selector="FilterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tai-W7-JlL"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -55,6 +63,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="FilterButton" destination="WGG-eE-33g" id="7xE-do-uWy"/>
                         <outlet property="FilterCutoffSlider" destination="CC5-yK-5IM" id="L4k-9c-1cg"/>
                         <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
                         <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>

@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var FFTMaxValue = 0
     
     var WaveformType: waveform_type = Sine;
+    var FilterType: filter_type = NoFilter
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
     var waveform: [Int16] = Array(repeating: 0, count: 2048)
@@ -47,6 +48,35 @@ class ViewController: UIViewController {
             WaveformButton.setTitle("Sine", for: .normal)
         }
     }
+    
+    @IBOutlet weak var FilterButton: UIButton!
+    @IBAction func FilterButtonTapped(_ sender: Any) {
+        switch FilterType {
+        case NoFilter:
+            FilterType = ExponentialLowPass
+            FilterButton.setTitle("Exponential LowPass", for: .normal)
+        case ExponentialLowPass:
+            FilterType = BiQuadLowPass
+            FilterButton.setTitle("BiQuad LowPass", for: .normal)
+            FilterCutoffSlider.value = 20000
+        case BiQuadLowPass:
+            FilterType = BiQuadHighPass
+            FilterButton.setTitle("BiQuad HighPass", for: .normal)
+            FilterCutoffSlider.value = 10
+        case BiQuadHighPass:
+            FilterType = ConstSkirtBandPass
+            FilterButton.setTitle("ConstSkirt BandPass", for: .normal)
+            FilterCutoffSlider.value = 5000
+        case ConstSkirtBandPass:
+            FilterType = NoFilter
+            FilterButton.setTitle("No Filter", for: .normal)
+        default:
+            FilterType = NoFilter
+            FilterButton.setTitle("Exponential LowPass", for: .normal)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +86,7 @@ class ViewController: UIViewController {
         
         Timer.scheduledTimer(withTimeInterval: 1/30, repeats: true) { (Timer) in
             self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
+            self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
             self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.ToneSlider.value)
             self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
             self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value

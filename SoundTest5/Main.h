@@ -41,8 +41,11 @@ typedef enum waveform_type
 
 typedef enum filter_type
 {
+    NoFilter,
+    ExponentialLowPass,
     BiQuadLowPass,
-    BiQuadHighPass
+    BiQuadHighPass,
+    ConstSkirtBandPass
 } filter_type;
 
 typedef struct waveform_params
@@ -55,11 +58,11 @@ typedef struct waveform_params
 
 typedef struct filter_params
 {
-    bool isInitaliased;
+    bool isInitialised;
     filter_type FilterType;
     
     int FilterFrequency;
-    int Q;
+    float Q;
     float w0;
     float sinw0;
     float cosw0;
@@ -91,11 +94,14 @@ typedef struct game_sound_output_buffer
     int SampleCount;
     int SamplesToWrite;
     float TimeInterval;
+
     waveform_type WaveformType;
-    int FilterFrequency;
-    float Q;
     int ToneHz;
     waveform_array Waveform;
+    
+    filter_type FilterType;
+    int FilterFrequency;
+    float Q;
     
     int16_t *Samples;
 } game_sound_output_buffer;
