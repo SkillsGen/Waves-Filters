@@ -85,7 +85,7 @@ class ViewController: UIViewController {
         
         SoundOutput = SetupAndRun()
         
-        UpdateBuffer(SoundOutput)          // Why is this needed?
+        WriteSamples(SoundOutput)          // Why is this needed?
         
         Timer.scheduledTimer(withTimeInterval: 1/30, repeats: true) { (Timer) in
             self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
@@ -94,7 +94,7 @@ class ViewController: UIViewController {
             self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
             self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value
             
-            UpdateBuffer(self.SoundOutput)
+            WriteSamples(self.SoundOutput)
             
             self.getWaveform()
             self.getFFTArray()
