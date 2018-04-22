@@ -54,7 +54,6 @@ typedef struct waveform_params
     int wavePeriod;
     int wavePeriodIndex;
     s16 *StartOfWaveform;
-    s16 *LastWriteCursor;
 } waveform_params;
 
 typedef struct filter_params
@@ -94,8 +93,9 @@ typedef struct game_sound_output_buffer
     int SamplesPerSecond;
     int SampleCount;
     int SamplesToWrite;
+    s16 *LastWriteCursor;
     float TimeInterval;
-
+    
     waveform_type WaveformType;
     int ToneHz;
     waveform_array Waveform;
@@ -104,7 +104,7 @@ typedef struct game_sound_output_buffer
     int FilterFrequency;
     float Q;
     
-    int16_t *Samples;
+    s16* Samples;
 } game_sound_output_buffer;
 
 typedef struct osx_sound_output
@@ -121,6 +121,6 @@ typedef struct osx_sound_output
 
 
 osx_sound_output * SetupAndRun(void);
-float UpdateBuffer(osx_sound_output *SoundOutput);
+float WriteSamples(osx_sound_output *SoundOutput);
 
 #endif /* Main_h */
