@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var FilterType: filter_type = NoFilter
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
+    var FPS: Double = 30
     var waveform: [Int16] = Array(repeating: 0, count: 2048)
     var FFTArray: [Float] = Array(repeating: 0.0, count: 1024)
     
@@ -84,10 +85,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         SoundOutput = SetupAndRun()
+        self.SoundOutput?.pointee.SoundBuffer.FPS = FPS
         
         WriteSamples(SoundOutput)          // Why is this needed?
         
-        Timer.scheduledTimer(withTimeInterval: 1/30, repeats: true) { (Timer) in
+        Timer.scheduledTimer(withTimeInterval: (1 / FPS), repeats: true) { (Timer) in
             self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
             self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
             self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.ToneSlider.value)

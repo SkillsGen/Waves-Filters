@@ -196,7 +196,15 @@ void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams
 
 void writeFFTSamples(osx_sound_output *SoundOutput)
 {
-    SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 512;
+    if(SoundOutput->SoundBuffer.SamplesToWrite > 1024)
+    {	
+	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 1024;
+    }
+    else
+    {
+	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 512;
+    }
+    
     s16 *ReadFrom = SoundOutput->SoundBuffer.Samples;
     float *FFTArray = SoundOutput->SoundBuffer.Waveform.FFTArray;
     
@@ -231,7 +239,8 @@ float OSXGetSecondsElapsed(uint64_t Then, uint64_t Now)
 void UpdateBuffer(osx_sound_output *SoundOutput)
 {
     s16* SamplesRead = SoundOutput->SoundBuffer.Samples;
-    s16 Latency = 1800;
+    s16 Latency = ((SoundOutput->SoundBuffer.SamplesPerSecond /
+		    SoundOutput->SoundBuffer.FPS) + 200);;
     
     if(SoundOutput->SoundBuffer.LastWriteCursor == 0)
     {
@@ -264,7 +273,8 @@ float WriteSamples(osx_sound_output *SoundOutput)
     float ForecastSecondsElapsed = 0;
     if(LastStartTime == 0)
     {
-        SoundOutput->SoundBuffer.SamplesToWrite = (SoundOutput->SoundBuffer.SamplesPerSecond / 30 + 200);
+        SoundOutput->SoundBuffer.SamplesToWrite = ((SoundOutput->SoundBuffer.SamplesPerSecond /
+						    SoundOutput->SoundBuffer.FPS) + 200);
     }
     else
     {

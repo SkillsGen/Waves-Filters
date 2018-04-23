@@ -25,12 +25,10 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
             }
         }
         
-        double sineStep = sin(tSine);
-        
+        double sineStep = sin(tSine);        
         int16 UnfilteredValue = (sineStep * 1000);
         
-        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
-        
+        int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);        
         *SamplesWriteCursor++ = FilteredValue;
         *SamplesWriteCursor++ = FilteredValue;
         
@@ -78,32 +76,27 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
 void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
     bool FirstTime = true;
+    s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     float SawStepAmount = 2.0f / (float)WaveformParams->wavePeriod;
+    
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
-        if(WaveformParams->wavePeriodIndex == 0 && FirstTime)
-        {
-            WaveformParams->StartOfWaveform = SoundOutput->WriteCursor;
-            FirstTime = false;
-        }
         if(WaveformParams->wavePeriodIndex > WaveformParams->wavePeriod)
         {
             WaveformParams->wavePeriodIndex = 0;
+	    if(FirstTime)
+	    {
+		WaveformParams->StartOfWaveform = SamplesWriteCursor;
+		FirstTime = false;
+	    }
         }
-        else
-        {
-            WaveformParams->wavePeriodIndex++;
-        }
-        int16 UnfilteredValue = (1.0f - (SawStepAmount * WaveformParams->wavePeriodIndex)) * 1000;
+        int16 UnfilteredValue = (1.0f - (SawStepAmount * (float)WaveformParams->wavePeriodIndex)) * 1000;
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
-        *SoundOutput->WriteCursor++ = FilteredValue;
-        *SoundOutput->WriteCursor++ = FilteredValue;
-        
-        if((char *)SoundOutput->WriteCursor >= ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
-        {
-            SoundOutput->WriteCursor = SoundOutput->CoreAudioBuffer;
-        }
+        *SamplesWriteCursor++ = FilteredValue;
+        *SamplesWriteCursor++ = FilteredValue;
+
+	WaveformParams->wavePeriodIndex++;
     }
 }
 
@@ -111,35 +104,29 @@ void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
     bool FirstTime = true;
+    s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     int16 HalfPeriod = WaveformParams->wavePeriod / 2;
+    
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
-        if(WaveformParams->wavePeriodIndex == (WaveformParams->wavePeriod/4) && FirstTime)
-        {
-            WaveformParams->StartOfWaveform = SoundOutput->WriteCursor;
-            FirstTime = false;
-        }
         if(WaveformParams->wavePeriodIndex > WaveformParams->wavePeriod)
         {
             WaveformParams->wavePeriodIndex = 0;
-        }
-        else
-        {
-            WaveformParams->wavePeriodIndex++;
+	    if(FirstTime)
+	    {
+		WaveformParams->StartOfWaveform = SamplesWriteCursor + (WaveformParams->wavePeriod / 2);
+		FirstTime = false;
+	    }
         }
         
-        float temp = abs(WaveformParams->wavePeriodIndex - HalfPeriod);
-        
+        float temp = abs(WaveformParams->wavePeriodIndex - HalfPeriod);        
         int16 UnfilteredValue = ((2000/HalfPeriod) * (HalfPeriod - temp)) - 1000;
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
-        *SoundOutput->WriteCursor++ = FilteredValue;
-        *SoundOutput->WriteCursor++ = FilteredValue;
-        
-        if((char *)SoundOutput->WriteCursor >= ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
-        {
-            SoundOutput->WriteCursor = SoundOutput->CoreAudioBuffer;
-        }
+        *SamplesWriteCursor++ = FilteredValue;
+        *SamplesWriteCursor++ = FilteredValue;
+
+	WaveformParams->wavePeriodIndex++;
     }
 }
 
@@ -147,12 +134,13 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
     bool FirstTime = true;
+    s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
         if(FirstTime)
         {
-            WaveformParams->StartOfWaveform = SoundOutput->WriteCursor;
+            WaveformParams->StartOfWaveform = SamplesWriteCursor;
             FirstTime = false;
         }
         
@@ -160,13 +148,8 @@ void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         
-        *SoundOutput->WriteCursor++ = (int16)FilteredValue;
-        *SoundOutput->WriteCursor++ = (int16)FilteredValue;
-        
-        if((char *)SoundOutput->WriteCursor >= ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
-        {
-            SoundOutput->WriteCursor = SoundOutput->CoreAudioBuffer;
-        }
+        *SamplesWriteCursor++ = (int16)FilteredValue;
+        *SamplesWriteCursor++ = (int16)FilteredValue;        
     }
 }
 

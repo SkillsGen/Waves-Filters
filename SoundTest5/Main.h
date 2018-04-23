@@ -95,6 +95,7 @@ typedef struct game_sound_output_buffer
     int SamplesToWrite;
     s16 *LastWriteCursor;
     float TimeInterval;
+    double FPS;
     
     waveform_type WaveformType;
     int ToneHz;
