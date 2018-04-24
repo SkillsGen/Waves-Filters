@@ -72,6 +72,9 @@ class ViewController: UIViewController {
             FilterType = ZeroPeakGainBandPass
             FilterButton.setTitle("ZeroPeakGain BandPass", for: .normal)
         case ZeroPeakGainBandPass:
+            FilterType = Notch
+            FilterButton.setTitle("Notch", for: .normal)
+        case Notch:
             FilterType = NoFilter
             FilterButton.setTitle("No Filter", for: .normal)
         default:
