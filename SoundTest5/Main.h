@@ -88,7 +88,7 @@ typedef struct waveform_array
     float* FFTArray;
 } waveform_array;
 
-typedef struct game_sound_output_buffer
+typedef struct sound_output_buffer
 {
     int SamplesPerSecond;
     int SampleCount;
@@ -106,11 +106,11 @@ typedef struct game_sound_output_buffer
     float Q;
     
     s16* Samples;
-} game_sound_output_buffer;
+} sound_output_buffer;
 
 typedef struct osx_sound_output
 {
-    game_sound_output_buffer SoundBuffer;
+    sound_output_buffer SoundBuffer;
     u32 SoundBufferSize;
     s16* CoreAudioBuffer;
     s16* ReadCursor;

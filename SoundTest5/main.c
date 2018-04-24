@@ -322,7 +322,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
 
 osx_sound_output * SetupAndRun(void)
 {
-    static game_sound_output_buffer SoundBuffer = {};
+    static sound_output_buffer SoundBuffer = {};
     static osx_sound_output SoundOutput = {};
     SoundOutput.SoundBuffer = SoundBuffer;
     SoundOutput.SoundBuffer.SamplesPerSecond = 48000;
