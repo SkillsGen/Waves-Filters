@@ -57,6 +57,9 @@ class ViewController: UIViewController {
             FilterType = ExponentialLowPass
             FilterButton.setTitle("Exponential LowPass", for: .normal)
         case ExponentialLowPass:
+            FilterType = ExponentialHighPass
+            FilterButton.setTitle("Exponential HighPass", for: .normal)
+        case ExponentialHighPass:
             FilterType = BiQuadLowPass
             FilterButton.setTitle("BiQuad LowPass", for: .normal)
             FilterCutoffSlider.value = 20000

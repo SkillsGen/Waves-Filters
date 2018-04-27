@@ -41,6 +41,7 @@ typedef enum filter_type
 {
     NoFilter,
     ExponentialLowPass,
+    ExponentialHighPass,
     BiQuadLowPass,
     BiQuadHighPass,
     ConstSkirtBandPass,
@@ -75,9 +76,11 @@ typedef struct filter_params
     
     int16 FilterednMinus1;
     int16 FilterednMinus2;
-    int16 unFilterednMinus1;
-    int16 unFilterednMinus2;
+    int16 UnfilterednMinus1;
+    int16 UnfilterednMinus2;
 } filter_params;
+
+static filter_params ZeroedFilterParams = {};
 
 typedef struct waveform_array
 {
