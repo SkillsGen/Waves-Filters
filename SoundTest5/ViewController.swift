@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var FilterType: filter_type = NoFilter
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
-    var FPS: Double = 30
+    var FPS: Double = 15
     var waveform: [Int16] = Array(repeating: 0, count: 2048)
     var FFTArray: [Float] = Array(repeating: 0.0, count: 1024)
     

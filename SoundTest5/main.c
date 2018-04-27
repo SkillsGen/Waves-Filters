@@ -126,7 +126,7 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
         if(j > i)
         {
             Swap(&FFTArray[j], &FFTArray[i]);                         //Swap real part
-            //Swap(&FFTArray[j + 1], &FFTArray[i + 1]);               // Don't need to swap complex part
+            //Swap(&FFTArray[j + 1], &FFTArray[i + 1]);               // All zeros
             
             if((j/2) < (ComplexSampleCount / 2))                      // if first half mirror for second half
             {
@@ -149,7 +149,7 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
     while(ArrayLength > mmax)
     {
         int iStep = mmax << 1;
-        float theta = (2.0f * pi32 / (float)mmax);   // Make negative for reversefft
+        float theta = (2.0f * M_PI / (float)mmax);   // Make negative for reversefft
         float wtemp = sin(0.5f * theta);
         float wpr = -2.0f * wtemp * wtemp;
         float wpi = sin(theta);
@@ -240,7 +240,7 @@ void UpdateBuffer(osx_sound_output *SoundOutput)
 {
     s16* SamplesRead = SoundOutput->SoundBuffer.Samples;
     s16 Latency = ((SoundOutput->SoundBuffer.SamplesPerSecond /
-		    SoundOutput->SoundBuffer.FPS) + 200);;
+		    SoundOutput->SoundBuffer.FPS) + 0);;
     
     if(SoundOutput->SoundBuffer.LastWriteCursor == 0)
     {
@@ -274,7 +274,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
     if(LastStartTime == 0)
     {
         SoundOutput->SoundBuffer.SamplesToWrite = ((SoundOutput->SoundBuffer.SamplesPerSecond /
-						    SoundOutput->SoundBuffer.FPS) + 200);
+						    SoundOutput->SoundBuffer.FPS) + 0);
     }
     else
     {
@@ -328,6 +328,7 @@ osx_sound_output * SetupAndRun(void)
     SoundOutput.SoundBuffer.SamplesPerSecond = 48000;
     SoundOutput.SoundBuffer.SampleCount = 48000;
     SoundOutput.SoundBuffer.ToneHz = 440;
+    SoundOutput.SoundBuffer.Gain = 1000;
     SoundOutput.SoundBuffer.FilterFrequency = 1000;
     SoundOutput.SoundBuffer.Q = 1;
     SoundOutput.SoundBuffer.TimeInterval = 1.0f / 48000.0f;

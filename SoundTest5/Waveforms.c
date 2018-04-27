@@ -26,7 +26,7 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
         }
         
         double sineStep = sin(tSine);        
-        int16 UnfilteredValue = (sineStep * 1000);
+        int16 UnfilteredValue = (sineStep * SoundOutput->SoundBuffer.Gain);
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);        
         *SamplesWriteCursor++ = FilteredValue;
@@ -63,7 +63,7 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
             WaveformParams->wavePeriodIndex = 0;
         }
         
-        int16 UnfilteredValue = (1 * sign * 1000);
+        int16 UnfilteredValue = (1 * sign * SoundOutput->SoundBuffer.Gain);
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         
@@ -90,7 +90,8 @@ void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 		FirstTime = false;
 	    }
         }
-        int16 UnfilteredValue = (1.0f - (SawStepAmount * (float)WaveformParams->wavePeriodIndex)) * 1000;
+        int16 UnfilteredValue = ((1.0f - (SawStepAmount * (float)WaveformParams->wavePeriodIndex)) *
+				 SoundOutput->SoundBuffer.Gain);
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         *SamplesWriteCursor++ = FilteredValue;
@@ -120,7 +121,7 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
         }
         
         float temp = abs(WaveformParams->wavePeriodIndex - HalfPeriod);        
-        int16 UnfilteredValue = ((2000/HalfPeriod) * (HalfPeriod - temp)) - 1000;
+        int16 UnfilteredValue = (((SoundOutput->SoundBuffer.Gain * 2)/HalfPeriod) * (HalfPeriod - temp)) - SoundOutput->SoundBuffer.Gain;
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         *SamplesWriteCursor++ = FilteredValue;
@@ -144,7 +145,7 @@ void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
             FirstTime = false;
         }
         
-        float UnfilteredValue = (rand() / (float)RAND_MAX - 0.5f) * 1000;
+        float UnfilteredValue = (rand() / (float)RAND_MAX - 0.5f) * SoundOutput->SoundBuffer.Gain;
         
         int16 FilteredValue = Filter(UnfilteredValue, SoundOutput);
         

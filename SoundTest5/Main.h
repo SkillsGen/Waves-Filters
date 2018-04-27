@@ -20,8 +20,6 @@
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 
-#define pi32 3.141592653589f
-
 
 #define Assert(Expression) if(!(Expression)) {abort();}
 
@@ -99,6 +97,7 @@ typedef struct sound_output_buffer
     double FPS;
     
     waveform_type WaveformType;
+    int Gain;
     int ToneHz;
     waveform_array Waveform;
     

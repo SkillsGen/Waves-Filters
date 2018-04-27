@@ -52,7 +52,7 @@ int16 ExponentialLowPassFilter(int UnfilteredValue, osx_sound_output *SoundOutpu
 {
     static int16 CurrentValue = 0;
     
-    float TimeConstant = (1 / (2 * pi32 * SoundOutput->SoundBuffer.FilterFrequency));
+    float TimeConstant = (1 / (2 * M_PI * SoundOutput->SoundBuffer.FilterFrequency));
     float alpha = (SoundOutput->SoundBuffer.TimeInterval /
                    (SoundOutput->SoundBuffer.TimeInterval + TimeConstant));
     
@@ -78,7 +78,7 @@ int16 BiQuadLowPassFilter(int unfilteredValue, osx_sound_output *SoundOutput, fi
         FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
         FilterParams->Q = SoundOutput->SoundBuffer.Q;
         
-        FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
+        FilterParams->w0 = 2.0f * M_PI * ((float)FilterParams->FilterFrequency /
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
@@ -124,7 +124,7 @@ int16 BiQuadHighPassFilter(int unfilteredValue, osx_sound_output *SoundOutput, f
         FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
         FilterParams->Q = SoundOutput->SoundBuffer.Q;
         
-        FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
+        FilterParams->w0 = 2.0f * M_PI * ((float)FilterParams->FilterFrequency /
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
@@ -171,7 +171,7 @@ int16 ConstSkirtBandPassFilter(int unfilteredValue, osx_sound_output *SoundOutpu
         FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
         FilterParams->Q = SoundOutput->SoundBuffer.Q;
         
-        FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
+        FilterParams->w0 = 2.0f * M_PI * ((float)FilterParams->FilterFrequency /
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
@@ -218,7 +218,7 @@ int16 ZeroPeakGainBandPassFilter(int unfilteredValue, osx_sound_output *SoundOut
         FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
         FilterParams->Q = SoundOutput->SoundBuffer.Q;
         
-        FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
+        FilterParams->w0 = 2.0f * M_PI * ((float)FilterParams->FilterFrequency /
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
@@ -264,7 +264,7 @@ int16 NotchFilter(int unfilteredValue, osx_sound_output *SoundOutput, filter_par
         FilterParams->FilterFrequency = SoundOutput->SoundBuffer.FilterFrequency;
         FilterParams->Q = SoundOutput->SoundBuffer.Q;
         
-        FilterParams->w0 = 2.0f * pi32 * ((float)FilterParams->FilterFrequency /
+        FilterParams->w0 = 2.0f * M_PI * ((float)FilterParams->FilterFrequency /
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
