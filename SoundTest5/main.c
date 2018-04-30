@@ -184,7 +184,7 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
 void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams)
 {
     SoundOutput->SoundBuffer.Waveform.WaveformArrayLength = WaveformParams.wavePeriod;
-    s16 *ReadFrom = WaveformParams.StartOfWaveform;
+    s16 *ReadFrom = SoundOutput->SoundBuffer.Samples;
     for(int i = 0; i < WaveformParams.wavePeriod; i++)
     {
         *(SoundOutput->SoundBuffer.Waveform.WaveformArray + i) = *ReadFrom;
@@ -236,33 +236,41 @@ float OSXGetSecondsElapsed(uint64_t Then, uint64_t Now)
     return Result;
 }
 
-void UpdateBuffer(osx_sound_output *SoundOutput)
+void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams)
 {
-    s16* SamplesRead = SoundOutput->SoundBuffer.Samples;
     s16 Latency = ((SoundOutput->SoundBuffer.SamplesPerSecond /
-		    SoundOutput->SoundBuffer.FPS) + 0);;
+		    SoundOutput->SoundBuffer.FPS) + 2000);;
+    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
+    SoundOutput->WriteCursor = SoundOutput->ReadCursor + Latency;
+    int PhaseDifference = 0;
     
-    if(SoundOutput->SoundBuffer.LastWriteCursor == 0)
+    if(SoundOutput->SoundBuffer.LastWriteCursor != 0)
     {
-        SoundOutput->WriteCursor = SoundOutput->ReadCursor + Latency;
+	s16* NewWriteCursor = SoundOutput->WriteCursor;
+	if(NewWriteCursor < SoundOutput->SoundBuffer.LastWriteCursor)
+	{
+	    NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
+	}
+	
+	int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
+	PhaseDifference = ((SamplesSinceLastWrite + SoundOutput->SoundBuffer.LastPhaseDifference) %
+			   WaveformParams.wavePeriod);	
+	
+	SoundOutput->SoundBuffer.LastPhaseDifference = PhaseDifference;
     }
-    else
-    {
-        SoundOutput->WriteCursor = SoundOutput->SoundBuffer.LastWriteCursor;
-    }
+    
+    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + PhaseDifference * 2;
     
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
-        
         if((char *)SoundOutput->WriteCursor >= (char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize)
         {
             SoundOutput->WriteCursor = SoundOutput->CoreAudioBuffer;
         }
-    }
-    
-    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
+
+        *SoundOutput->WriteCursor++ = *SamplesRead++;
+        *SoundOutput->WriteCursor++ = *SamplesRead++;        
+    }    
 }
 
 float WriteSamples(osx_sound_output *SoundOutput)
@@ -271,17 +279,13 @@ float WriteSamples(osx_sound_output *SoundOutput)
     static uint64_t LastStartTime = 0;
     
     float ForecastSecondsElapsed = 0;
-    if(LastStartTime == 0)
-    {
-        SoundOutput->SoundBuffer.SamplesToWrite = ((SoundOutput->SoundBuffer.SamplesPerSecond /
-						    SoundOutput->SoundBuffer.FPS) + 0);
-    }
-    else
+    if(LastStartTime != 0)
     {
         ForecastSecondsElapsed = OSXGetSecondsElapsed(LastStartTime, StartTime);
-        SoundOutput->SoundBuffer.SamplesToWrite = (SoundOutput->SoundBuffer.SamplesPerSecond * ForecastSecondsElapsed);
     }
-    
+
+    SoundOutput->SoundBuffer.SamplesToWrite = 80000;
+
     static waveform_params WaveformParams = {};
     WaveformParams.wavePeriod = SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.ToneHz;
     
@@ -306,7 +310,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
             writeSineWave(SoundOutput, &WaveformParams);
     }
     
-    UpdateBuffer(SoundOutput);
+    UpdateBuffer(SoundOutput, WaveformParams);
     
     writeWaveForm(SoundOutput, WaveformParams);
     writeFFTSamples(SoundOutput);
@@ -326,13 +330,13 @@ osx_sound_output * SetupAndRun(void)
     static osx_sound_output SoundOutput = {};
     SoundOutput.SoundBuffer = SoundBuffer;
     SoundOutput.SoundBuffer.SamplesPerSecond = 48000;
-    SoundOutput.SoundBuffer.SampleCount = 48000;
+    SoundOutput.SoundBuffer.SampleCount = 48000 * 2;
     SoundOutput.SoundBuffer.ToneHz = 440;
     SoundOutput.SoundBuffer.Gain = 1000;
     SoundOutput.SoundBuffer.FilterFrequency = 1000;
     SoundOutput.SoundBuffer.Q = 1;
     SoundOutput.SoundBuffer.TimeInterval = 1.0f / 48000.0f;
-    SoundOutput.SoundBufferSize = 48000 * sizeof(int16_t) * 2;
+    SoundOutput.SoundBufferSize = 48000 * 2 * sizeof(int16_t) * 2;
     
     SoundOutput.SoundBuffer.Samples = (int16_t *)mmap(0, SoundOutput.SoundBufferSize, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
     if(SoundOutput.SoundBuffer.Samples == MAP_FAILED)
@@ -364,7 +368,7 @@ osx_sound_output * SetupAndRun(void)
     memset(SoundOutput.SoundBuffer.Waveform.FFTArray, 0,  WaveformArrayMaxSize);
     
     SoundOutput.ReadCursor = SoundOutput.CoreAudioBuffer;
-    SoundOutput.WriteCursor = SoundOutput.CoreAudioBuffer;
+    SoundOutput.WriteCursor = 0;
     
     OSXInitCoreAudio(&SoundOutput);
     

@@ -9,8 +9,8 @@
 
 void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
 {
-    bool FirstTime = true;
     s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
+    WaveformParams->wavePeriodIndex = 0;
     
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
@@ -18,11 +18,6 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
         if(WaveformParams->wavePeriodIndex > WaveformParams->wavePeriod)
         {
             WaveformParams->wavePeriodIndex = 0;
-            if(FirstTime)
-            {
-                WaveformParams->StartOfWaveform = SamplesWriteCursor;
-                FirstTime = false;
-            }
         }
         
         double sineStep = sin(tSine);        

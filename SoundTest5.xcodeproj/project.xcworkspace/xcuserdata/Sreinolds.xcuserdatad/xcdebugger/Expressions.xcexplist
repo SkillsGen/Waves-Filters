@@ -3,10 +3,19 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "writeFFTSamples:main.c">
+         contextName = "fastFourierTransform:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
+               value = "(FFTArray + (i * 2) + 1)">
+            </PersistentString>
+            <PersistentString
+               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i">
+            </PersistentString>
+            <PersistentString
+               value = "(FFTArray + (i * 2))">
+            </PersistentString>
+            <PersistentString
+               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i + 1">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -58,6 +67,20 @@
       </ContextState>
       <ContextState
          contextName = "UpdateBuffer:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "NewWriteCursor - SoundOutput-&gt;SoundBuffer.LastWriteCursor">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
+            </PersistentString>
+            <PersistentString
+               value = "SamplesSinceLastWrite">
+            </PersistentString>
+            <PersistentString
+               value = "SoundOutput-&gt;SoundBuffer.LastWriteCursor">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "writeSquareWave:main.c">
@@ -82,19 +105,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "fastFourierTransform:main.c">
+         contextName = "writeFFTSamples:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "(FFTArray + (i * 2) + 1)">
-            </PersistentString>
-            <PersistentString
-               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i">
-            </PersistentString>
-            <PersistentString
-               value = "(FFTArray + (i * 2))">
-            </PersistentString>
-            <PersistentString
-               value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i + 1">
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
