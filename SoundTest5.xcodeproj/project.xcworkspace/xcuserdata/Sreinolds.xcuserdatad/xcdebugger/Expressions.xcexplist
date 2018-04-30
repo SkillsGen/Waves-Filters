@@ -69,13 +69,13 @@
          contextName = "UpdateBuffer:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "NewWriteCursor - SoundOutput-&gt;SoundBuffer.LastWriteCursor">
+               value = "Latency">
             </PersistentString>
             <PersistentString
-               value = "WaveformParams">
+               value = "(NewWriteCursor - SoundOutput-&gt;SoundBuffer.LastWriteCursor)">
             </PersistentString>
             <PersistentString
-               value = "SamplesSinceLastWrite">
+               value = "SoundOutput-&gt;SoundBuffer.LastWriteCursor + Latency">
             </PersistentString>
             <PersistentString
                value = "SoundOutput-&gt;SoundBuffer.LastWriteCursor">

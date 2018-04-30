@@ -12,10 +12,10 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
     s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     WaveformParams->wavePeriodIndex = 0;
     
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < 96000; i++)
     {
         float tSine = 2.0f * M_PI * ((float)WaveformParams->wavePeriodIndex / (float)WaveformParams->wavePeriod);
-        if(WaveformParams->wavePeriodIndex > WaveformParams->wavePeriod)
+        if(WaveformParams->wavePeriodIndex >= WaveformParams->wavePeriod)
         {
             WaveformParams->wavePeriodIndex = 0;
         }
