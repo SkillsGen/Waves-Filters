@@ -3,6 +3,22 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "writeFFTSamples:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "fastFourierTransform:main.c">
          <PersistentStrings>
             <PersistentString
@@ -20,23 +36,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput.pointee">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeSineWave:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
-            </PersistentString>
-            <PersistentString
-               value = "WaveformParams">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "writeSawtoothWave:Waveforms.c">
       </ContextState>
       <ContextState
          contextName = "SetupAndRun:main.c">
@@ -72,13 +72,13 @@
                value = "Latency">
             </PersistentString>
             <PersistentString
-               value = "(NewWriteCursor - SoundOutput-&gt;SoundBuffer.LastWriteCursor)">
+               value = "SoundOutput-&gt;SoundBuffer.SamplesPerSecond / SoundOutput-&gt;SoundBuffer.FPS">
             </PersistentString>
             <PersistentString
-               value = "SoundOutput-&gt;SoundBuffer.LastWriteCursor + Latency">
+               value = "ForecastSecondsElapsed * SoundOutput-&gt;SoundBuffer.SamplesPerSecond">
             </PersistentString>
             <PersistentString
-               value = "SoundOutput-&gt;SoundBuffer.LastWriteCursor">
+               value = "SamplesRead - SoundOutput-&gt;SoundBuffer.Samples">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -94,6 +94,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "writeSineWave:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "writeWaveform:main.c">
       </ContextState>
       <ContextState
@@ -101,14 +112,6 @@
          <PersistentStrings>
             <PersistentString
                value = "SoundOutput.pointee">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeFFTSamples:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

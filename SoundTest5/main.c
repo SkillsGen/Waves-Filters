@@ -238,14 +238,20 @@ float OSXGetSecondsElapsed(uint64_t Then, uint64_t Now)
 
 void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams, float ForecastSecondsElapsed)
 {
-    int Latency = (SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.FPS + 
-		   ForecastSecondsElapsed * SoundOutput->SoundBuffer.SamplesPerSecond);
+    int Latency;
+    if(ForecastSecondsElapsed == 0)
+    {
+	Latency = SoundOutput->SoundBuffer.FPS * SoundOutput->SoundBuffer.SamplesPerSecond;
+    }
+    else
+    {
+	Latency = ForecastSecondsElapsed * SoundOutput->SoundBuffer.SamplesPerSecond;
+    }
 
-    int PhaseDifference = 0;
+    int PhaseDifference = 0;   
     if(SoundOutput->SoundBuffer.LastWriteCursor != 0)
     {
-
-	SoundOutput->WriteCursor = (SoundOutput->SoundBuffer.LastWriteCursor + Latency);
+	SoundOutput->WriteCursor = (SoundOutput->SoundBuffer.LastWriteCursor + (Latency * 2));
     
 	if(SoundOutput->WriteCursor > ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
 	{
@@ -258,7 +264,6 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
 	    NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
 	}
 
-	//This is wrong
 	int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
 	PhaseDifference = ((SamplesSinceLastWrite + SoundOutput->SoundBuffer.LastPhaseDifference) %
 			   WaveformParams.wavePeriod);	
@@ -266,8 +271,8 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
 	SoundOutput->SoundBuffer.LastPhaseDifference = PhaseDifference;
     }
     SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;    
-    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + (PhaseDifference * 2);
-    
+
+    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + (PhaseDifference * 2);    
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
         *SoundOutput->WriteCursor++ = *SamplesRead++;
@@ -291,7 +296,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
         ForecastSecondsElapsed = OSXGetSecondsElapsed(LastStartTime, StartTime);
     }
 
-    SoundOutput->SoundBuffer.SamplesToWrite = 80000;
+    SoundOutput->SoundBuffer.SamplesToWrite = 48000;
 
     static waveform_params WaveformParams = {};
     WaveformParams.wavePeriod = SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.ToneHz;
