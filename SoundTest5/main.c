@@ -184,7 +184,7 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
 void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams)
 {
     SoundOutput->SoundBuffer.Waveform.WaveformArrayLength = WaveformParams.wavePeriod;
-    s16 *ReadFrom = SoundOutput->SoundBuffer.Samples;
+    s16 *ReadFrom = SoundOutput->SoundBuffer.Samples + WaveformParams.wavePeriod * 2;
     for(int i = 0; i < WaveformParams.wavePeriod; i++)
     {
         *(SoundOutput->SoundBuffer.Waveform.WaveformArray + i) = *ReadFrom;
@@ -263,16 +263,16 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
 	{
 	    NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
 	}
-
 	int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
 	PhaseDifference = ((SamplesSinceLastWrite + SoundOutput->SoundBuffer.LastPhaseDifference) %
-			   WaveformParams.wavePeriod);	
+			   WaveformParams.lastWavePeriod);
 	
 	SoundOutput->SoundBuffer.LastPhaseDifference = PhaseDifference;
     }
-    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;    
+    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
 
-    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + (PhaseDifference * 2);    
+    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + WaveformParams.wavePeriod;
+    SoundOutput->WriteCursor -= (PhaseDifference * 2);    
     for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
     {
         *SoundOutput->WriteCursor++ = *SamplesRead++;
@@ -299,6 +299,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
     SoundOutput->SoundBuffer.SamplesToWrite = 48000;
 
     static waveform_params WaveformParams = {};
+    WaveformParams.lastWavePeriod = WaveformParams.wavePeriod;
     WaveformParams.wavePeriod = SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.ToneHz;
     
     switch(SoundOutput->SoundBuffer.WaveformType)

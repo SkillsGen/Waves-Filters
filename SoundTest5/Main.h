@@ -52,6 +52,7 @@ typedef enum filter_type
 typedef struct waveform_params
 {
     int wavePeriod;
+    int lastWavePeriod;
     int wavePeriodIndex;
     s16 *StartOfWaveform;
 } waveform_params;
@@ -104,6 +105,7 @@ typedef struct sound_output_buffer
     waveform_type WaveformType;
     int Gain;
     int ToneHz;
+    int LastWavePeriod;
     waveform_array Waveform;
     
     filter_type FilterType;

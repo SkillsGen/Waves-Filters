@@ -94,7 +94,7 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
 {
     s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     int16 HalfPeriod = WaveformParams->wavePeriod / 2;
-    WaveformParams->wavePeriodIndex = 0;
+    WaveformParams->wavePeriodIndex = WaveformParams->wavePeriod / 4;
     
     for(int i = 0; i < 96000; i++)
     {
