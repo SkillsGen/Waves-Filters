@@ -264,24 +264,22 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
 	    NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
 	}
 	int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
-	PhaseDifference = ((SamplesSinceLastWrite + SoundOutput->SoundBuffer.LastPhaseDifference) %
-			   WaveformParams.lastWavePeriod);
-	
-	SoundOutput->SoundBuffer.LastPhaseDifference = PhaseDifference;
+	PhaseDifference = SamplesSinceLastWrite % WaveformParams.lastWavePeriod;
     }
-    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
 
     s16* SamplesRead = SoundOutput->SoundBuffer.Samples + WaveformParams.wavePeriod;
-    SoundOutput->WriteCursor -= (PhaseDifference * 2);    
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
-    {
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
+    SoundOutput->WriteCursor += (WaveformParams.lastWavePeriod - PhaseDifference) * 2;
+    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
 
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    {	
 	if((char *)SoundOutput->WriteCursor >= (char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize)
         {
             SoundOutput->WriteCursor = (char *)SoundOutput->WriteCursor - SoundOutput->SoundBufferSize;
         }
+
+        *SoundOutput->WriteCursor++ = *SamplesRead++;
+        *SoundOutput->WriteCursor++ = *SamplesRead++;
     }
 }
 
@@ -328,8 +326,6 @@ float WriteSamples(osx_sound_output *SoundOutput)
     writeWaveForm(SoundOutput, WaveformParams);
     writeFFTSamples(SoundOutput);
     fastFourierTransform(SoundOutput);
-    
-    //writeWaveform(SoundOutput);
     
     LastStartTime = StartTime;
     
@@ -384,7 +380,6 @@ osx_sound_output * SetupAndRun(void)
     SoundOutput.WriteCursor = SoundOutput.CoreAudioBuffer;
     
     OSXInitCoreAudio(&SoundOutput);
-    
-    
+        
     return &SoundOutput;
 }

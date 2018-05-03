@@ -97,7 +97,6 @@ typedef struct sound_output_buffer
     int SampleCount;
     int SamplesToWrite;
 
-    int LastPhaseDifference;
     s16 *LastWriteCursor;
     float TimeInterval;
     double FPS;
