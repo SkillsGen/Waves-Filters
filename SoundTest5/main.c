@@ -283,7 +283,7 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
     }
 }
 
-float WriteSamples(osx_sound_output *SoundOutput)
+float WriteSamples(osx_sound_output *SoundOutput)  // Add a write check!!
 {
     uint64_t StartTime = mach_absolute_time();
     static uint64_t LastStartTime = 0;
@@ -328,7 +328,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
     fastFourierTransform(SoundOutput);
     
     LastStartTime = StartTime;
-    
+
     return ForecastSecondsElapsed;
 }
 

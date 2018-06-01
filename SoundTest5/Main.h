@@ -121,7 +121,7 @@ typedef struct osx_sound_output
     s16* CoreAudioBuffer;
     s16* ReadCursor;
     s16* WriteCursor;
-    
+
     AudioStreamBasicDescription AudioDescriptor;
     AudioUnit AudioUnit;
 } osx_sound_output;
