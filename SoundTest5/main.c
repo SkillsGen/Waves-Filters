@@ -271,7 +271,7 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
     SoundOutput->WriteCursor += (WaveformParams.lastWavePeriod - PhaseDifference) * 2;
     SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
 
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite - 4000; i++)
     {	
 	if((char *)SoundOutput->WriteCursor >= (char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize)
         {
@@ -326,10 +326,14 @@ float WriteSamples(osx_sound_output *SoundOutput)  // Add a write check!!
     writeWaveForm(SoundOutput, WaveformParams);
     writeFFTSamples(SoundOutput);
     fastFourierTransform(SoundOutput);
+
+    uint64_t EndTime = mach_absolute_time();
+
+    float WriteSamplesTime = OSXGetSecondsElapsed(StartTime, EndTime);
     
     LastStartTime = StartTime;
 
-    return ForecastSecondsElapsed;
+    return WriteSamplesTime;
 }
 
 
