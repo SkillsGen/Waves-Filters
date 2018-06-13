@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var FilterType: filter_type = NoFilter
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
-    var FPS: Double = 60
+    var FPS: Double = 10
     var waveform: [Int16] = Array(repeating: 0, count: 2048)
     var FFTArray: [Float] = Array(repeating: 0.0, count: 1024)
     
@@ -102,7 +102,7 @@ class ViewController: UIViewController {
             self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
             self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value
             
-            WriteSamples(self.SoundOutput)
+            print(WriteSamples(self.SoundOutput))
             
             self.getWaveform()
             self.getFFTArray()

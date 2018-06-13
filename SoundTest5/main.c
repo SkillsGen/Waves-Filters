@@ -241,7 +241,7 @@ void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams,
     int Latency;
     if(ForecastSecondsElapsed == 0)
     {
-	Latency = SoundOutput->SoundBuffer.FPS * SoundOutput->SoundBuffer.SamplesPerSecond;
+	Latency = (1 / SoundOutput->SoundBuffer.FPS) * SoundOutput->SoundBuffer.SamplesPerSecond;
     }
     else
     {
