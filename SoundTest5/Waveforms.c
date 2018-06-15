@@ -12,7 +12,7 @@ void writeSineWave(osx_sound_output *SoundOutput, waveform_params *WaveformParam
     s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     WaveformParams->wavePeriodIndex = 0;
     
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite + 4000; i++)
     {
 	if(WaveformParams->wavePeriodIndex >= WaveformParams->wavePeriod)
         {
@@ -39,7 +39,7 @@ void writeSquareWave(osx_sound_output *SoundOutput, waveform_params *WaveformPar
     int sign = 1;
     WaveformParams->wavePeriodIndex = 0;
     
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite + 4000; i++)
     {
         if(WaveformParams->wavePeriodIndex >= WaveformParams->wavePeriod)
         {
@@ -71,7 +71,7 @@ void writeSawtoothWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
     float SawStepAmount = 2.0f / (float)WaveformParams->wavePeriod;
     WaveformParams->wavePeriodIndex = 0;
 	    
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite + 4000; i++)
     {
         if(WaveformParams->wavePeriodIndex >= WaveformParams->wavePeriod)
         {
@@ -96,7 +96,7 @@ void writeTriangleWave(osx_sound_output *SoundOutput, waveform_params *WaveformP
     int16 HalfPeriod = WaveformParams->wavePeriod / 2;
     WaveformParams->wavePeriodIndex = WaveformParams->wavePeriod / 4;
     
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite + 4000; i++)
     {
         if(WaveformParams->wavePeriodIndex >= WaveformParams->wavePeriod)
         {
@@ -121,7 +121,7 @@ void writeNoise(osx_sound_output *SoundOutput, waveform_params *WaveformParams)
     bool FirstTime = true;
     s16* SamplesWriteCursor = SoundOutput->SoundBuffer.Samples;
     
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite + 4000; i++)
     {
         if(FirstTime)
         {
