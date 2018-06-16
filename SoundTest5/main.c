@@ -233,20 +233,12 @@ float OSXGetSecondsElapsed(uint64_t Then, uint64_t Now)
 
 void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams, float ForecastSecondsElapsed)
 {
-    int Latency;
-    if(1)//ForecastSecondsElapsed == 0)
-    {
-	Latency = (1 / SoundOutput->SoundBuffer.FPS) * SoundOutput->SoundBuffer.SamplesPerSecond;
-    }
-    else
-    {
-	Latency = ForecastSecondsElapsed * SoundOutput->SoundBuffer.SamplesPerSecond;
-    }
+    int Latency = (1 / SoundOutput->SoundBuffer.FPS) * SoundOutput->SoundBuffer.SamplesPerSecond * 2;
 
     int PhaseDifference = 0;   
     if(SoundOutput->SoundBuffer.LastWriteCursor != 0)
     {
-	SoundOutput->WriteCursor = (SoundOutput->ReadCursor + (Latency * 2));
+	SoundOutput->WriteCursor = (SoundOutput->ReadCursor + Latency);
     
 	if(SoundOutput->WriteCursor > ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
 	{

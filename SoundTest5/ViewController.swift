@@ -96,17 +96,21 @@ class ViewController: UIViewController {
         WriteSamples(SoundOutput)          // Why is this needed?
         
         Timer.scheduledTimer(withTimeInterval: (1 / FPS), repeats: true) { (Timer) in
-            self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
-            self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
-            self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.ToneSlider.value)
-            self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
-            self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value
-            
-            print(WriteSamples(self.SoundOutput))
-            
-            self.getWaveform()
-            self.getFFTArray()
+            self.SoundLoop()
         }
+    }
+    
+    func SoundLoop() {
+        self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
+        self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
+        self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.ToneSlider.value)
+        self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
+        self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value
+        
+        WriteSamples(self.SoundOutput)
+        
+        self.getWaveform()
+        self.getFFTArray()
     }
 
     func getWaveform() {
