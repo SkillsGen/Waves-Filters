@@ -231,46 +231,53 @@ float OSXGetSecondsElapsed(uint64_t Then, uint64_t Now)
     return Result;
 }
 
-void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params WaveformParams, float ForecastSecondsElapsed)
+void UpdateBuffer(osx_sound_output *SoundOutput, waveform_params *WaveformParams, float ForecastSecondsElapsed)
 {
     int Latency = (1 / SoundOutput->SoundBuffer.FPS) * SoundOutput->SoundBuffer.SamplesPerSecond * 2;
 
-    int PhaseDifference = 0;   
-    if(SoundOutput->SoundBuffer.LastWriteCursor != 0)
+    int PhaseDifference = 0;
+    
+    if(SoundOutput->SoundBuffer.LastReadCursor != SoundOutput->ReadCursor)
     {
-	SoundOutput->WriteCursor = (SoundOutput->ReadCursor + Latency);
+	SoundOutput->SoundBuffer.LastReadCursor = SoundOutput->ReadCursor;
     
-	if(SoundOutput->WriteCursor > ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
+	if(SoundOutput->SoundBuffer.LastWriteCursor != 0)
 	{
-	    SoundOutput->WriteCursor = (char *)SoundOutput->WriteCursor - SoundOutput->SoundBufferSize;
-	}
+	    SoundOutput->WriteCursor = (SoundOutput->ReadCursor + Latency);
     
-	s16* NewWriteCursor = SoundOutput->WriteCursor;
-	if(NewWriteCursor < SoundOutput->SoundBuffer.LastWriteCursor)
-	{
-	    NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
+	    if(SoundOutput->WriteCursor > ((char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize))
+	    {
+		SoundOutput->WriteCursor = (char *)SoundOutput->WriteCursor - SoundOutput->SoundBufferSize;
+	    }
+    
+	    s16* NewWriteCursor = SoundOutput->WriteCursor;
+	    if(NewWriteCursor < SoundOutput->SoundBuffer.LastWriteCursor)
+	    {
+		NewWriteCursor = (char *)NewWriteCursor + SoundOutput->SoundBufferSize;
+	    }
+	    int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
+	    PhaseDifference = SamplesSinceLastWrite % WaveformParams->lastWavePeriod;
 	}
-	int SamplesSinceLastWrite = (NewWriteCursor - SoundOutput->SoundBuffer.LastWriteCursor) / 2;
-	PhaseDifference = SamplesSinceLastWrite % WaveformParams.lastWavePeriod;
-    }
 
-    s16* SamplesRead = SoundOutput->SoundBuffer.Samples + WaveformParams.wavePeriod;
-    SoundOutput->WriteCursor += (WaveformParams.lastWavePeriod - PhaseDifference) * 2;
-    SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
+	s16* SamplesRead = SoundOutput->SoundBuffer.Samples + WaveformParams->wavePeriod;
+	SoundOutput->WriteCursor += (WaveformParams->lastWavePeriod - PhaseDifference) * 2;
+	SoundOutput->SoundBuffer.LastWriteCursor = SoundOutput->WriteCursor;
 
-    for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
-    {	
-	if((char *)SoundOutput->WriteCursor >= (char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize)
-        {
-            SoundOutput->WriteCursor = (char *)SoundOutput->WriteCursor - SoundOutput->SoundBufferSize;
-        }
+	for(int i = 0; i < SoundOutput->SoundBuffer.SamplesToWrite; i++)
+	{	
+	    if((char *)SoundOutput->WriteCursor >= (char *)SoundOutput->CoreAudioBuffer + SoundOutput->SoundBufferSize)
+	    {
+		SoundOutput->WriteCursor = (char *)SoundOutput->WriteCursor - SoundOutput->SoundBufferSize;
+	    }
 
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
-        *SoundOutput->WriteCursor++ = *SamplesRead++;
+	    *SoundOutput->WriteCursor++ = *SamplesRead++;
+	    *SoundOutput->WriteCursor++ = *SamplesRead++;
+	}
+	WaveformParams->lastWavePeriod = WaveformParams->wavePeriod;
     }
 }
 
-float WriteSamples(osx_sound_output *SoundOutput)  // Add a write check!!
+float WriteSamples(osx_sound_output *SoundOutput)
 {
     uint64_t StartTime = mach_absolute_time();
     static uint64_t LastStartTime = 0;
@@ -281,10 +288,9 @@ float WriteSamples(osx_sound_output *SoundOutput)  // Add a write check!!
         ForecastSecondsElapsed = OSXGetSecondsElapsed(LastStartTime, StartTime);
     }
 
-    SoundOutput->SoundBuffer.SamplesToWrite = 48000;
+    SoundOutput->SoundBuffer.SamplesToWrite = 48000 / 4;
 
     static waveform_params WaveformParams = {};
-    WaveformParams.lastWavePeriod = WaveformParams.wavePeriod;
     WaveformParams.wavePeriod = SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.ToneHz;
     
     switch(SoundOutput->SoundBuffer.WaveformType)
@@ -308,19 +314,15 @@ float WriteSamples(osx_sound_output *SoundOutput)  // Add a write check!!
             writeSineWave(SoundOutput, &WaveformParams);
     }
     
-    UpdateBuffer(SoundOutput, WaveformParams, ForecastSecondsElapsed);
+    UpdateBuffer(SoundOutput, &WaveformParams, ForecastSecondsElapsed);
     
     writeWaveForm(SoundOutput, WaveformParams);
     writeFFTSamples(SoundOutput);
     fastFourierTransform(SoundOutput);
-
-    uint64_t EndTime = mach_absolute_time();
-
-    float WriteSamplesTime = OSXGetSecondsElapsed(StartTime, EndTime);
     
     LastStartTime = StartTime;
 
-    return WriteSamplesTime;
+    return ForecastSecondsElapsed;
 }
 
 
@@ -337,7 +339,6 @@ osx_sound_output * SetupAndRun(void)
     SoundOutput.SoundBuffer.Q = 1;
     SoundOutput.SoundBuffer.TimeInterval = 1.0f / 48000.0f;
     SoundOutput.SoundBufferSize = 48000 * 2 * sizeof(int16_t) * 2;
-    
     SoundOutput.SoundBuffer.Samples = (int16_t *)mmap(0, SoundOutput.SoundBufferSize, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
     if(SoundOutput.SoundBuffer.Samples == MAP_FAILED)
     {

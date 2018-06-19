@@ -3,12 +3,7 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "writeFFTSamples:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "writeWaveform:main.c">
       </ContextState>
       <ContextState
          contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
@@ -36,7 +31,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSawtoothWave:Waveforms.c">
+         contextName = "ViewController.drawFFT():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "SetupAndRun:main.c">
@@ -78,6 +78,9 @@
                value = "ForecastSecondsElapsed * SoundOutput-&gt;SoundBuffer.SamplesPerSecond">
             </PersistentString>
             <PersistentString
+               value = "LastReadCursor == SoundOutput-&gt;ReadCursor">
+            </PersistentString>
+            <PersistentString
                value = "SamplesRead - SoundOutput-&gt;SoundBuffer.Samples">
             </PersistentString>
          </PersistentStrings>
@@ -94,6 +97,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "writeSawtoothWave:Waveforms.c">
+      </ContextState>
+      <ContextState
          contextName = "writeSineWave:main.c">
          <PersistentStrings>
             <PersistentString
@@ -105,13 +111,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeWaveform:main.c">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.drawFFT():ViewController.swift">
+         contextName = "writeFFTSamples:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput.pointee">
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
