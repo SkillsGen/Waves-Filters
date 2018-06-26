@@ -288,7 +288,7 @@ float WriteSamples(osx_sound_output *SoundOutput)
         ForecastSecondsElapsed = OSXGetSecondsElapsed(LastStartTime, StartTime);
     }
 
-    SoundOutput->SoundBuffer.SamplesToWrite = 48000 / 4;
+    SoundOutput->SoundBuffer.SamplesToWrite = 48000 / 4; // Divide by 4 to fit into 120hz
 
     static waveform_params WaveformParams = {};
     WaveformParams.wavePeriod = SoundOutput->SoundBuffer.SamplesPerSecond / SoundOutput->SoundBuffer.ToneHz;
