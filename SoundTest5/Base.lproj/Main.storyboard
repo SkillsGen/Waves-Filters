@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="ipad10_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,17 +18,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="440" minValue="40" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-WI-IEd">
-                                <rect key="frame" x="8" y="402" width="1096" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="440" minValue="40" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-WI-IEd">
+                                <rect key="frame" x="8" y="541" width="1096" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20000" minValue="10" maxValue="20000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
-                                <rect key="frame" x="-2" y="462" width="1116" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20000" minValue="10" maxValue="20000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
+                                <rect key="frame" x="-2" y="601" width="1116" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.01" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
-                                <rect key="frame" x="6" y="522" width="1100" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.01" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
+                                <rect key="frame" x="6" y="661" width="1100" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGG-eE-33g">
+                                <rect key="frame" x="694" y="733" width="200" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="No Filter"/>
+                                <connections>
+                                    <action selector="FilterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tai-W7-JlL"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-Ig-NJq">
-                                <rect key="frame" x="57" y="658" width="322" height="38"/>
+                                <rect key="frame" x="173" y="729" width="322" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Sine"/>
@@ -36,30 +47,8 @@
                                     <action selector="WaveformButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YEH-hE-Rq6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGG-eE-33g">
-                                <rect key="frame" x="572" y="666" width="200" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="No Filter"/>
-                                <connections>
-                                    <action selector="FilterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tai-W7-JlL"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="po5-T2-Cby" secondAttribute="trailing" constant="8" id="2bh-ot-2B7"/>
-                            <constraint firstItem="po5-T2-Cby" firstAttribute="top" secondItem="CC5-yK-5IM" secondAttribute="bottom" constant="30" id="9Bz-SZ-RkB"/>
-                            <constraint firstItem="5bI-WI-IEd" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="MR5-FW-ytc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5bI-WI-IEd" secondAttribute="trailing" constant="10" id="NIJ-cc-CGo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CC5-yK-5IM" secondAttribute="trailing" id="NTK-Nq-mjB"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="po5-T2-Cby" secondAttribute="trailing" constant="8" id="QrH-Ds-0t0"/>
-                            <constraint firstItem="CC5-yK-5IM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Y07-2e-S7E"/>
-                            <constraint firstItem="5bI-WI-IEd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eCA-KS-dtD"/>
-                            <constraint firstItem="po5-T2-Cby" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="k2S-IO-TWU"/>
-                            <constraint firstItem="CC5-yK-5IM" firstAttribute="top" secondItem="5bI-WI-IEd" secondAttribute="bottom" constant="30" id="sM6-p7-X05"/>
-                            <constraint firstItem="5bI-WI-IEd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wsA-y8-BRe"/>
-                            <constraint firstItem="po5-T2-Cby" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="z0l-eV-KQZ"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
