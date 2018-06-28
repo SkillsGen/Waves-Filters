@@ -110,7 +110,7 @@ class ViewController: UIViewController {
 
         self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength), traceIndex: 0,
                               Width: 1, Height: 1, xOffset: -1.05, yOffset: -0.5)
-        self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength), traceIndex: 1,
+        self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.FFTArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.FFTSampleCount), traceIndex: 1,
                               Width: 1, Height: 1, xOffset: 0.05, yOffset: -0.5)
         
         memcpy(vertexBuffer.contents(), vertexData, vertexData.count * MemoryLayout.size(ofValue: vertexData[0]))
@@ -174,23 +174,23 @@ class ViewController: UIViewController {
     }
     
     
-    func getWaveform() {
-        let waveformPointer: UnsafeMutablePointer<s16> = (SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray)!
-     
-        for index in 0...(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength - 1) {
-            waveform[Int(index)] = (waveformPointer + Int(index)).pointee
-        }
-    }
+//    func getWaveform() {
+//        let waveformPointer: UnsafeMutablePointer<s16> = (SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray)!
+//
+//        for index in 0...(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength - 1) {
+//            waveform[Int(index)] = (waveformPointer + Int(index)).pointee
+//        }
+//    }
+//
+//    func getFFTArray() {
+//        let FFTArrayPointer: UnsafeMutablePointer<Float> = (SoundOutput!.pointee.SoundBuffer.Waveform.FFTArray)!
+//
+//        for index in 0...(SoundOutput!.pointee.SoundBuffer.Waveform.FFTSampleCount - 1) {
+//            FFTArray[Int(index)] = (FFTArrayPointer + Int(index)).pointee
+//        }
+//    }
     
-    func getFFTArray() {
-        let FFTArrayPointer: UnsafeMutablePointer<Float> = (SoundOutput!.pointee.SoundBuffer.Waveform.FFTArray)!
-        
-        for index in 0...(SoundOutput!.pointee.SoundBuffer.Waveform.FFTSampleCount - 1) {
-            FFTArray[Int(index)] = (FFTArrayPointer + Int(index)).pointee
-        }
-    }
-    
-    func GenTraceVertices(tracePointer: UnsafeMutablePointer<s16>, traceCount: Int, traceIndex: Int, Width: Float, Height: Float, xOffset: Float, yOffset: Float) {
+    func GenTraceVertices(tracePointer: UnsafeMutablePointer<Float>, traceCount: Int, traceIndex: Int, Width: Float, Height: Float, xOffset: Float, yOffset: Float) {
         let xStride = Width / Float(traceVertices)
 
         var traceCountCapped = traceCount

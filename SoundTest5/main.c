@@ -182,7 +182,7 @@ void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams
     s16 *ReadFrom = SoundOutput->SoundBuffer.Samples + WaveformParams.wavePeriod * 2;
     for(int i = 0; i < WaveformParams.wavePeriod; i++)
     {
-        *(SoundOutput->SoundBuffer.Waveform.WaveformArray + i) = *ReadFrom;
+        *(SoundOutput->SoundBuffer.Waveform.WaveformArray + i) = (float)*ReadFrom;
         
         ReadFrom += 2;
     }

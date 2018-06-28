@@ -86,7 +86,7 @@ static filter_params ZeroedFilterParams = {};
 typedef struct waveform_array
 {
     int WaveformArrayLength;
-    s16* WaveformArray;
+    float* WaveformArray;
     int FFTSampleCount;
     float* FFTArray;
 } waveform_array;
