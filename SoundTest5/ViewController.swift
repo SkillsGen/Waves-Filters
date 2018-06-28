@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     var commandQueue: MTLCommandQueue!
     
     let gridVertices = 880
-    let waveformTraceVertices = 1024
+    let traceVertices = 1024
     var totalVertices: Int!
     let floatsPerVertex = 8
     
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        totalVertices = self.gridVertices + self.waveformTraceVertices
+        totalVertices = self.gridVertices + self.traceVertices * 2
         self.vertexData = Array(repeating: 0.0, count: ((totalVertices) * floatsPerVertex))
         
         SetupMetal()
@@ -107,7 +107,12 @@ class ViewController: UIViewController {
         
         WriteSamples(self.SoundOutput)
         
-        self.GenVertices()
+
+        self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength), traceIndex: 0,
+                              Width: 1, Height: 1, xOffset: -1.05, yOffset: -0.5)
+        self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength), traceIndex: 1,
+                              Width: 1, Height: 1, xOffset: 0.05, yOffset: -0.5)
+        
         memcpy(vertexBuffer.contents(), vertexData, vertexData.count * MemoryLayout.size(ofValue: vertexData[0]))
         
         let scaling = scalingMatrix(xScale: 0.9, yScale: 1.4, zScale: 0.9)
@@ -185,27 +190,23 @@ class ViewController: UIViewController {
         }
     }
     
-    func GenVertices() {
-        let Width: Float = 1
-        let Height: Float = 1
-        let xOffset: Float = -1.05
-        let yOffset: Float = -1/2
-        
-        let waveformPointer: UnsafeMutablePointer<s16> = (SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray)!
-        var waveformLength = Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength)
-        let xStride = Width / Float(waveformTraceVertices)
+    func GenTraceVertices(tracePointer: UnsafeMutablePointer<s16>, traceCount: Int, traceIndex: Int, Width: Float, Height: Float, xOffset: Float, yOffset: Float) {
+        let xStride = Width / Float(traceVertices)
 
-        if waveformLength > waveformTraceVertices {
-            waveformLength = waveformTraceVertices
+        var traceCountCapped = traceCount
+        if traceCount > traceVertices {
+            traceCountCapped = traceVertices
         }
         
-        let start = gridVertices * 8
-        let waveStart = start + (((waveformTraceVertices - waveformLength) / 2) * 8)
-        let waveEnd = waveStart + (waveformLength * 8)
+        let vertexStart = gridVertices + (traceIndex * traceVertices)
+        let vertexEnd = vertexStart + traceVertices
+        let start = vertexStart * 8
+        let waveStart = start + (((traceVertices - traceCountCapped) / 2) * 8)
+        let waveEnd = waveStart + (traceCountCapped * 8)
         
-        var waveIndex = 0
+        var traceIndex = 0
         var gridIndex = 0
-        for i in gridVertices..<(totalVertices-1) {
+        for i in vertexStart..<(vertexEnd - 1) {
             var index = i * 8
             
             if index < waveStart  || index >= waveEnd {
@@ -231,7 +232,7 @@ class ViewController: UIViewController {
             }
             else if index < waveEnd {
                 self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
-                self.vertexData[index++] = Float((waveformPointer + Int(waveIndex)).pointee) / 3276// int16 maxval. todo: scale
+                self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / 3276// int16 maxval. todo: scale
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
                 
@@ -241,7 +242,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 1.0
                 
                 self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
-                self.vertexData[index++] = Float((waveformPointer + Int(waveIndex + 1)).pointee) / 3276// int16 maxval. todo: scale
+                self.vertexData[index++] = Float((tracePointer + Int(traceIndex + 1)).pointee) / 3276// int16 maxval. todo: scale
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
                 
@@ -250,7 +251,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 0.0
                 self.vertexData[index++] = 1.0
                 
-                waveIndex++
+                traceIndex++
             }
             gridIndex++
         }
