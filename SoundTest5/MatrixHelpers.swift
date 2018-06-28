@@ -30,12 +30,12 @@ func translationMatrix(position: float3) -> float4x4 {
     return Result
 }
 
-func scalingMatrix(scale: Float) -> float4x4 {
+func scalingMatrix(xScale: Float, yScale: Float, zScale: Float) -> float4x4 {
     var Result = identityMatrix()
     
-    Result.columns.0.x = scale
-    Result.columns.1.y = scale
-    Result.columns.2.z = scale
+    Result.columns.0.x = xScale
+    Result.columns.1.y = yScale
+    Result.columns.2.z = zScale
     Result.columns.3.w = 1
     
     return Result

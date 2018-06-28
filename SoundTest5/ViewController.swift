@@ -13,15 +13,13 @@ import MetalPerformanceShaders
 import simd
 
 class ViewController: UIViewController {
-    //let waveformLayer = CAShapeLayer()
-    //let FFTLayer = CAShapeLayer()
     var FFTMaxValue = 0
     
     var WaveformType: waveform_type = Sine;
     var FilterType: filter_type = NoFilter
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
-    var FPS: Double = 60
+    var FPS: Double = 120
     var waveform: [Int16] = Array(repeating: 0, count: 1024)
     var FFTArray: [Float] = Array(repeating: 0.0, count: 1024)
     
@@ -36,7 +34,7 @@ class ViewController: UIViewController {
     var uniformBuffer: MTLBuffer!
     var commandQueue: MTLCommandQueue!
     
-    let gridVertices = 440
+    let gridVertices = 880
     let waveformTraceVertices = 1024
     var totalVertices: Int!
     let floatsPerVertex = 8
@@ -70,12 +68,13 @@ class ViewController: UIViewController {
         metalLayer.frame = CGRect(x: 0, y: 0, width: view.layer.frame.width, height: view.layer.frame.height/2)
         view.layer.addSublayer(metalLayer)
         
-        genGrid(Width: 2, Height: 2)
+        genGrid(Width: 1, Height: 1, xOffset: -1.05, yOffset: -1/2, gridIndex: 0)
+        genGrid(Width: 1, Height: 1, xOffset: 0.05, yOffset: -1/2, gridIndex: 1)
         
         let dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
         vertexBuffer = device.makeBuffer(bytes: vertexData, length: dataSize, options: [])
         
-        var scaling = scalingMatrix(scale: 1.0)
+        var scaling = scalingMatrix(xScale: 1.0, yScale: 1.0, zScale: 1.0)
         let matrixSize = MemoryLayout<Float>.size * 16
         var projMatrix = projectionMatrix(near: 0.1, far: 100, aspect: Float(self.view.bounds.size.width / self.view.bounds.size.height), fovy: 1.484)
         uniformBuffer = device.makeBuffer(length: matrixSize * 2, options: [])
@@ -111,7 +110,7 @@ class ViewController: UIViewController {
         self.GenVertices()
         memcpy(vertexBuffer.contents(), vertexData, vertexData.count * MemoryLayout.size(ofValue: vertexData[0]))
         
-        let scaling = scalingMatrix(scale: 0.9)
+        let scaling = scalingMatrix(xScale: 0.9, yScale: 1.4, zScale: 0.9)
         let rotation = rotationMatrix(rotVector: float3(0.0, 0.0, 0.0)) * scaling
         var translation = translationMatrix(position: float3(0.0, 0.0, 0.0)) * rotation
         
@@ -187,8 +186,10 @@ class ViewController: UIViewController {
     }
     
     func GenVertices() {
-        let Width: Float = 2
-        let Height: Float = 2
+        let Width: Float = 1
+        let Height: Float = 1
+        let xOffset: Float = -1.05
+        let yOffset: Float = -1/2
         
         let waveformPointer: UnsafeMutablePointer<s16> = (SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray)!
         var waveformLength = Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength)
@@ -197,7 +198,6 @@ class ViewController: UIViewController {
         if waveformLength > waveformTraceVertices {
             waveformLength = waveformTraceVertices
         }
-        
         
         let start = gridVertices * 8
         let waveStart = start + (((waveformTraceVertices - waveformLength) / 2) * 8)
@@ -209,7 +209,7 @@ class ViewController: UIViewController {
             var index = i * 8
             
             if index < waveStart  || index >= waveEnd {
-                self.vertexData[index++] = xStride * Float(gridIndex) - Width/2
+                self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
@@ -219,7 +219,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 0.0
                 self.vertexData[index++] = 1.0
                 
-                self.vertexData[index++] = xStride * Float(gridIndex+1) - Width/2
+                self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
@@ -230,7 +230,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 1.0
             }
             else if index < waveEnd {
-                self.vertexData[index++] = xStride * Float(gridIndex) - Width/2
+                self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
                 self.vertexData[index++] = Float((waveformPointer + Int(waveIndex)).pointee) / 3276// int16 maxval. todo: scale
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
@@ -240,7 +240,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 0.0
                 self.vertexData[index++] = 1.0
                 
-                self.vertexData[index++] = xStride * Float(gridIndex+1) - Width/2
+                self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
                 self.vertexData[index++] = Float((waveformPointer + Int(waveIndex + 1)).pointee) / 3276// int16 maxval. todo: scale
                 self.vertexData[index++] = 0
                 self.vertexData[index++] = 1
@@ -257,13 +257,13 @@ class ViewController: UIViewController {
     }
     
     
-    func genGrid(Width: Float, Height: Float) {
+    func genGrid(Width: Float, Height: Float, xOffset: Float, yOffset: Float, gridIndex: Int) {
         for i in 0...10 {
             for j in 0...9 {
-                var index = (i * 10 * 32) + (j * 32)
+                var index = (i * 10 * 32) + (j * 32) + (gridIndex * 440 * floatsPerVertex)
                 
-                self.vertexData[index++] = (Width/10 * Float(i) - Width/2)
-                self.vertexData[index++] = (Height/10 * Float(j) - Height/2)
+                self.vertexData[index++] = (Width/10 * Float(i) + xOffset)
+                self.vertexData[index++] = (Height/10 * Float(j) + yOffset)
                 self.vertexData[index++] = (0)
                 self.vertexData[index++] = (1)
                 
@@ -272,8 +272,8 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = (0.3)
                 self.vertexData[index++] = (1)
                 
-                self.vertexData[index++] = (Width/10 * Float(i) - Width/2)
-                self.vertexData[index++] = (Height/10 * Float(j + 1) - Height/2)
+                self.vertexData[index++] = (Width/10 * Float(i) + xOffset)
+                self.vertexData[index++] = (Height/10 * Float(j + 1) + yOffset)
                 self.vertexData[index++] = (0)
                 self.vertexData[index++] = (1)
                 
@@ -282,8 +282,8 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = (0.3)
                 self.vertexData[index++] = (1)
                 
-                self.vertexData[index++] = (Width/10 * Float(j) - Width/2)
-                self.vertexData[index++] = (Height/10 * Float(i) - Height/2)
+                self.vertexData[index++] = (Width/10 * Float(j) + xOffset)
+                self.vertexData[index++] = (Height/10 * Float(i) + yOffset)
                 self.vertexData[index++] = (0)
                 self.vertexData[index++] = (1)
                 
@@ -292,8 +292,8 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = (0.3)
                 self.vertexData[index++] = (1)
                 
-                self.vertexData[index++] = (Width/10 * Float(j + 1) - Width/2)
-                self.vertexData[index++] = (Height/10 * Float(i) - Height/2)
+                self.vertexData[index++] = (Width/10 * Float(j + 1) + xOffset)
+                self.vertexData[index++] = (Height/10 * Float(i) + yOffset)
                 self.vertexData[index++] = (0)
                 self.vertexData[index++] = (1)
                 
@@ -376,78 +376,3 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 }
-
-
-
-//    func drawWaveForm() {
-//        waveformLayer.path = nil
-//        waveformLayer.removeFromSuperlayer()
-//
-//        let width = Int(self.view.frame.width) / 2
-//        let height = Int(300)
-//        let centerLineY = height/2 + 20
-//        let centerLineX = width / 2
-//        let waveformPath = UIBezierPath()
-//
-//        waveformPath.move(to: CGPoint(x: 0, y: centerLineY))
-//        waveformPath.addLine(to: CGPoint(x: width, y: centerLineY))
-//        waveformPath.move(to: CGPoint(x: centerLineX, y: 0))
-//        waveformPath.addLine(to: CGPoint(x: centerLineX, y: height))
-//
-//        let max = waveform.max()
-//        if Int(max!) == 0 {return}
-//        let scale: Float = Float(height / 2) / Float(max!)
-//
-//        let xstart = centerLineX - Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength)
-//        for index in 0...(Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength - 1)) {
-//            let sample = Float(waveform[index]) * scale
-//
-//            waveformPath.move(to: CGPoint(x: xstart + index * 2, y: centerLineY))
-//            waveformPath.addLine(to: CGPoint(x: xstart + index * 2, y: centerLineY - Int(sample)))
-//        }
-//
-//        waveformLayer.strokeColor = UIColor(white: 0.2, alpha: 0.5).cgColor
-//        waveformLayer.lineWidth = 1
-//
-//        waveformLayer.path = waveformPath.cgPath
-//        self.view.layer.addSublayer(waveformLayer)
-//    }
-//
-//    func drawFFT()
-//    {
-//        FFTLayer.removeFromSuperlayer()
-//
-//        let width = Int(self.view.frame.width) / 2
-//        let height = Int(300)
-//        let FFTPath = UIBezierPath()
-//
-//        let max = FFTArray.max()
-//        if Int(max!) == 0 {return}
-//        if Int(max!) > FFTMaxValue && Int(max!) < 500000 {
-//            FFTMaxValue = Int(max!)
-//        } else if Int(max!) > 500000 {
-//            FFTMaxValue = 500000
-//        }
-//
-//        //print(self.ToneSlider.value)
-//        //print(FFTArray.index(of: max!))
-//
-//        let scale: Float = Float(height) / Float(FFTMaxValue)
-//
-//        for i in 0...(FFTArray.count) {
-//            let sample = Float(FFTArray[i]) * scale
-//
-//            FFTPath.move(to: CGPoint(x: width + i * 2, y: height))
-//            FFTPath.addLine(to: CGPoint(x: width + i * 2, y: height - Int(sample)))
-//            if i >= width / 2 {
-//                break
-//            }
-//        }
-//
-//        FFTLayer.strokeColor = UIColor(white: 0.2, alpha: 0.5).cgColor
-//        FFTLayer.lineWidth = 1
-//
-//        FFTLayer.path = FFTPath.cgPath
-//        self.view.layer.addSublayer(FFTLayer)
-//    }
-//}

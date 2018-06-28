@@ -35,10 +35,21 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
     Vertex in = vertices[vid];
     Vertex out;
     
-    out.position = matrix * float4(in.position);
     
     // Barrel Distortion
     float barrelDistortion = 0.95f;
+    float4 newCenter;
+    
+    if(in.position.x < 0)
+    {
+        newCenter = float4(-0.55, 0, 0.0, 0.0);
+    }
+    else
+    {
+        newCenter = float4(0.55, 0, 0.0, 0.0);
+    }
+    out.position = in.position - newCenter;
+    
     if(!(out.position.x == 0.0f && out.position.y == 0.0f))
     {
         float2 newCoords = float2(out.position.x, out.position.y);
@@ -53,6 +64,10 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
         out.position.y = outCoords.y;
     }
     
+    out.position.x += newCenter.x;
+    out.position.y += newCenter.y;
+    
+    out.position = matrix * out.position;
     out.color = in.color;
     return out;
 }
