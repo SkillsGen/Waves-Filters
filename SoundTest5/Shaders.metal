@@ -40,11 +40,11 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
     float barrelDistortion = 0.95f;
     float4 newCenter;
     
-    if(in.position.x < 0)
+    if(in.position.x < 0) // For the left grid
     {
         newCenter = float4(-0.55, 0, 0.0, 0.0);
     }
-    else
+    else                  // For the right grid
     {
         newCenter = float4(0.55, 0, 0.0, 0.0);
     }
