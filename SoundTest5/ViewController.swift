@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     var commandQueue: MTLCommandQueue!
     
     let gridVertices = 880
-    let traceVertices = 1024
+    let traceVertices = 2048
     var totalVertices: Int!
     let floatsPerVertex = 8
     
@@ -175,28 +175,27 @@ class ViewController: UIViewController {
     
     
     func GenTraceVertices(tracePointer: UnsafeMutablePointer<Float>, traceCount: Int, traceIndex: Int, Width: Float, Height: Float, xOffset: Float, yOffset: Float, yScale: Float) {
-        let xStride = Width / Float(traceVertices)
+        let xStride = Width / Float(traceVertices/2)
 
         var traceCountCapped = traceCount
-        if traceCount > traceVertices {
-            traceCountCapped = traceVertices
+        if traceCount > traceVertices/2 {
+            traceCountCapped = traceVertices/2
         }
         
-        let vertexStart = gridVertices + (traceIndex * traceVertices)
-        let vertexEnd = vertexStart + traceVertices
-        let start = vertexStart * 8
-        let waveStart = start + (((traceVertices - traceCountCapped) / 2) * 8)
-        let waveEnd = waveStart + (traceCountCapped * 8)
-        
+        let start = (gridVertices + (traceIndex * traceVertices)) * 8
+        let end = start + traceVertices * 8
+        let waveStart = start + (traceVertices - traceCountCapped*2) * 4
+        let waveEnd = waveStart + (traceCountCapped * 8 * 2)
+
         var traceIndex = 0
         var gridIndex = 0
-        for i in vertexStart..<(vertexEnd - 1) {
-            var index = i * 8
-            
+        
+        var index = start
+        while index < end {
             if index < waveStart  || index >= waveEnd {
                 self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
                 self.vertexData[index++] = 0
-                self.vertexData[index++] = 0
+                self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
                 self.vertexData[index++] = 0.0
@@ -206,7 +205,7 @@ class ViewController: UIViewController {
                 
                 self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
                 self.vertexData[index++] = 0
-                self.vertexData[index++] = 0
+                self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
                 self.vertexData[index++] = 0.0
@@ -214,10 +213,10 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 0.0
                 self.vertexData[index++] = 1.0
             }
-            else if index < waveEnd {
+            else {
                 self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
                 self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / yScale // int16 maxval. todo: scale
-                self.vertexData[index++] = 0
+                self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
                 self.vertexData[index++] = 0.0
@@ -227,7 +226,7 @@ class ViewController: UIViewController {
                 
                 self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
                 self.vertexData[index++] = Float((tracePointer + Int(traceIndex + 1)).pointee) / yScale
-                self.vertexData[index++] = 0
+                self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
                 self.vertexData[index++] = 0.0
