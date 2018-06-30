@@ -257,7 +257,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 1.0
                 traceIndex++
                 
-                if index >= waveEnd {
+                if index >= waveEnd && index < end {
                     self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
                     self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset
                     self.vertexData[index++] = 0.1

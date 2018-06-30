@@ -191,14 +191,8 @@ void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams
 
 void writeFFTSamples(osx_sound_output *SoundOutput)
 {
-    if(SoundOutput->SoundBuffer.SamplesToWrite > 1024)
-    {	
-	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 1024;
-    }
-    else
-    {
-	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 512;
-    }
+    
+	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 2048;
     
     s16 *ReadFrom = SoundOutput->SoundBuffer.Samples;
     float *FFTArray = SoundOutput->SoundBuffer.Waveform.FFTArray;
