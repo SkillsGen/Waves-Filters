@@ -3,6 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "totalVertices * 8">
+            </PersistentString>
+            <PersistentString
+               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "fastFourierTransform:main.c">
          <PersistentStrings>
             <PersistentString
@@ -20,31 +39,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput.pointee">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeSineWave:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
-            </PersistentString>
-            <PersistentString
-               value = "WaveformParams">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeFFTSamples:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "writeSawtoothWave:Waveforms.c">
       </ContextState>
       <ContextState
          contextName = "SetupAndRun:main.c">
@@ -55,20 +50,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         contextName = "ViewController.drawFFT():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.vertexData.count">
+               value = "SoundOutput.pointee">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "totalVertices * 8">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "writeWaveform:main.c">
       </ContextState>
       <ContextState
          contextName = "ViewController.drawWaveForm():ViewController.swift">
@@ -132,18 +122,31 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSawtoothWave:Waveforms.c">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.drawFFT():ViewController.swift">
+         contextName = "writeSineWave:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput.pointee">
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeWaveform:main.c">
+         contextName = "writeFFTSamples:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.vertexData.count">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>
