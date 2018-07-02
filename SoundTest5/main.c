@@ -333,6 +333,7 @@ osx_sound_output * SetupAndRun(void)
     SoundOutput.SoundBuffer.Q = 1;
     SoundOutput.SoundBuffer.TimeInterval = 1.0f / 48000.0f;
     SoundOutput.SoundBufferSize = 48000 * 2 * sizeof(int16_t) * 2;
+    
     SoundOutput.SoundBuffer.Samples = (int16_t *)mmap(0, SoundOutput.SoundBufferSize, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
     if(SoundOutput.SoundBuffer.Samples == MAP_FAILED)
     {
@@ -348,7 +349,7 @@ osx_sound_output * SetupAndRun(void)
     memset(SoundOutput.CoreAudioBuffer, 0,  SoundOutput.SoundBufferSize);
     
     int WaveformArrayMaxSize = 1024;
-    SoundOutput.SoundBuffer.Waveform.WaveformArray = (int16_t *)mmap(0, WaveformArrayMaxSize, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
+    SoundOutput.SoundBuffer.Waveform.WaveformArray = (float *)mmap(0, WaveformArrayMaxSize, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANON, -1, 0);
     if(SoundOutput.SoundBuffer.Waveform.WaveformArray == MAP_FAILED)
     {
         

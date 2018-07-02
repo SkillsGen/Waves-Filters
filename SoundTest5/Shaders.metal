@@ -17,7 +17,7 @@ struct Vertex {
 
 struct Uniforms {
     float4x4 modelMatrix;
-    float4x4 projectionMatrix;
+    float4x4 waveStretchMatrix;
 };
 
 struct frag_out {
@@ -30,16 +30,13 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
                            unsigned int vid            [[ vertex_id ]])
 {
     float4x4 matrix = uniforms.modelMatrix;
-    //float4x4 projectionMatrix = uniforms.projectionMatrix;
     
     Vertex in = vertices[vid];
     Vertex out;
     
-    
-    // Barrel Distortion
+    // Re-center to each grid
     float barrelDistortion = 0.95f;
     float4 newCenter;
-    
     if(in.position.x < 0) // For the left grid
     {
         newCenter = float4(-0.55, 0, 0.0, 0.0);
@@ -52,6 +49,19 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
     
     if(!(out.position.x == 0.0f && out.position.y == 0.0f))
     {
+        // Scale the waveform
+        float4x4 waveStretchMatrix = uniforms.waveStretchMatrix;
+        if(in.position.x < 0 && in.color[1] == 1.0)
+        {
+            out.position = waveStretchMatrix * out.position;
+            
+            // Hide overhangs
+            if((out.position.x >= 0.5) || (out.position.x <=  -0.5))
+            {
+                out.position.z = -10;
+            }
+        }
+        // Barrel distortion
         float2 newCoords = float2(out.position.x, out.position.y);
         
         float theta = atan2(newCoords.y, newCoords.x);
@@ -64,11 +74,13 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
         out.position.y = outCoords.y;
     }
     
+    //Move back
     out.position.x += newCenter.x;
     out.position.y += newCenter.y;
     
     out.position = matrix * out.position;
     out.color = in.color;
+
     return out;
 }
 

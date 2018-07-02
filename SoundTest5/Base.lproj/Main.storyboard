@@ -47,6 +47,10 @@
                                     <action selector="WaveformButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YEH-hE-Rq6"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="OdE-Le-4gU">
+                                <rect key="frame" x="117" y="427" width="293" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -57,6 +61,7 @@
                         <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
                         <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>
                         <outlet property="WaveformButton" destination="2kc-Ig-NJq" id="HTO-Rx-m91"/>
+                        <outlet property="waveFormScalingXSlider" destination="OdE-Le-4gU" id="rAu-5X-RMV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

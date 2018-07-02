@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     
     var SoundOutput: UnsafeMutablePointer<osx_sound_output>? = nil
     var FPS: Double = 120
+    var waveFormScalingX: Float = 1.0
     var waveform: [Int16] = Array(repeating: 0, count: 1024)
     var FFTArray: [Float] = Array(repeating: 0.0, count: 1024)
     
@@ -76,10 +77,10 @@ class ViewController: UIViewController {
         
         var scaling = scalingMatrix(xScale: 1.0, yScale: 1.0, zScale: 1.0)
         let matrixSize = MemoryLayout<Float>.size * 16
-        var projMatrix = projectionMatrix(near: 0.1, far: 100, aspect: Float(self.view.bounds.size.width / self.view.bounds.size.height), fovy: 1.484)
+        var waveStretch = scalingMatrix(xScale: self.waveFormScalingX, yScale: 1.0, zScale: 1.0)
         uniformBuffer = device.makeBuffer(length: matrixSize * 2, options: [])
         memcpy(uniformBuffer.contents(), &scaling, matrixSize)
-        memcpy(uniformBuffer.contents() + matrixSize, &projMatrix, matrixSize)
+        memcpy(uniformBuffer.contents() + matrixSize, &waveStretch, matrixSize)
         
         let defaultLibrary = device.makeDefaultLibrary()!
         let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
@@ -118,9 +119,13 @@ class ViewController: UIViewController {
         let scaling = scalingMatrix(xScale: 0.9, yScale: 1.4, zScale: 0.9)
         let rotation = rotationMatrix(rotVector: float3(0.0, 0.0, 0.0)) * scaling
         var translation = translationMatrix(position: float3(0.0, 0.0, 0.0)) * rotation
+
+        let matrixSize = MemoryLayout<Float>.size * 16
+        memcpy(uniformBuffer.contents(), &translation, matrixSize)
         
-        let transsize = MemoryLayout<Float>.size * 16
-        memcpy(uniformBuffer.contents(), &translation, transsize)
+        waveFormScalingX = waveFormScalingXSlider.value
+        var waveStretch = scalingMatrix(xScale: waveFormScalingX, yScale: 1.0, zScale: 1.0)
+        memcpy(uniformBuffer.contents() + matrixSize, &waveStretch, matrixSize)
         
         render()
     }
@@ -337,6 +342,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var ToneSlider: UISlider!
     @IBOutlet weak var FilterCutoffSlider: UISlider!
     @IBOutlet weak var QSlider: UISlider!
+    @IBOutlet weak var waveFormScalingXSlider: UISlider!
     
     @IBOutlet weak var WaveformButton: UIButton!
     @IBAction func WaveformButtonTapped(_ sender: UIButton) {
