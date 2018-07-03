@@ -108,11 +108,10 @@ class ViewController: UIViewController {
         
         WriteSamples(self.SoundOutput)
         
-
         self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.WaveformArrayLength), traceIndex: 0,
                               Width: 1, Height: 1, xOffset: -1.05, yOffset: 0.0, yScale: 3276)
         self.GenTraceVertices(tracePointer: SoundOutput!.pointee.SoundBuffer.Waveform.FFTArray, traceCount: Int(SoundOutput!.pointee.SoundBuffer.Waveform.FFTSampleCount)/2, traceIndex: 1,
-                              Width: 1, Height: 1, xOffset: 0.05, yOffset: -0.5, yScale: 100000)
+                              Width: 1, Height: 1, xOffset: 0.05, yOffset: -0.5, yScale: 1000000)
         
         memcpy(vertexBuffer.contents(), vertexData, vertexData.count * MemoryLayout.size(ofValue: vertexData[0]))
         
@@ -230,7 +229,7 @@ class ViewController: UIViewController {
                     self.vertexData[index++] = 1.0
                     
                     self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
-                    self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset
+                    self.vertexData[index++] = (tracePointer + Int(traceIndex)).pointee / yScale + yOffset
                     self.vertexData[index++] = 0.1
                     self.vertexData[index++] = 1
                     
@@ -242,7 +241,7 @@ class ViewController: UIViewController {
             }
             else {
                 self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
-                self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset
+                self.vertexData[index++] = (tracePointer + Int(traceIndex)).pointee / yScale + yOffset
                 self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
@@ -252,7 +251,7 @@ class ViewController: UIViewController {
                 self.vertexData[index++] = 1.0
                 
                 self.vertexData[index++] = xStride * Float(gridIndex+1) + xOffset
-                self.vertexData[index++] = Float((tracePointer + Int(traceIndex + 1)).pointee) / yScale + yOffset
+                self.vertexData[index++] = (tracePointer + Int(traceIndex + 1)).pointee / yScale + yOffset
                 self.vertexData[index++] = 0.1
                 self.vertexData[index++] = 1
                 
@@ -264,7 +263,7 @@ class ViewController: UIViewController {
                 
                 if index >= waveEnd && index < end {
                     self.vertexData[index++] = xStride * Float(gridIndex) + xOffset
-                    self.vertexData[index++] = Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset
+                    self.vertexData[index++] = (tracePointer + Int(traceIndex)).pointee / yScale + yOffset
                     self.vertexData[index++] = 0.1
                     self.vertexData[index++] = 1
                     

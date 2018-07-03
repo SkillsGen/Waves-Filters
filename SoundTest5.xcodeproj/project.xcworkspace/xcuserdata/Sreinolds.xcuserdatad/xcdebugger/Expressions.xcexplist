@@ -6,6 +6,9 @@
          contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "(tracePointer + Int(traceIndex)).pointee">
+            </PersistentString>
+            <PersistentString
                value = "totalVertices * 8">
             </PersistentString>
             <PersistentString
@@ -34,12 +37,23 @@
                value = "(FFTArray + (i * 2))">
             </PersistentString>
             <PersistentString
+               value = "log10(Val)">
+            </PersistentString>
+            <PersistentString
                value = "SoundOutput-&gt;SoundBuffer.Waveform.WaveformArray + i + 1">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSawtoothWave:Waveforms.c">
+         contextName = "writeSineWave:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "SetupAndRun:main.c">
@@ -50,15 +64,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.drawFFT():ViewController.swift">
+         contextName = "writeFFTSamples:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput.pointee">
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeWaveform:main.c">
+         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.vertexData.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WriteSamples:main.c">
       </ContextState>
       <ContextState
          contextName = "ViewController.drawWaveForm():ViewController.swift">
@@ -111,6 +133,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ViewController.soundLoopAndRender():ViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "writeSquareWave:main.c">
       </ContextState>
       <ContextState
@@ -122,31 +147,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSineWave:main.c">
+         contextName = "writeSawtoothWave:Waveforms.c">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawFFT():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
-            </PersistentString>
-            <PersistentString
-               value = "WaveformParams">
+               value = "SoundOutput.pointee">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeFFTSamples:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.viewDidLoad():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.vertexData.count">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "writeWaveform:main.c">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

@@ -171,7 +171,8 @@ void fastFourierTransform(osx_sound_output *SoundOutput)
     
     for(int i = 0; i < ComplexSampleCount; i += 2)
     {
-        FFTArray[i/2] = sqrt(FFTArray[i]*FFTArray[i] + FFTArray[i+1]*FFTArray[i+1]);
+        float Val = sqrt(FFTArray[i]*FFTArray[i] + FFTArray[i+1]*FFTArray[i+1]);
+        FFTArray[i/2] = Val;
     }
 }
 
@@ -191,7 +192,6 @@ void writeWaveForm(osx_sound_output *SoundOutput, waveform_params WaveformParams
 
 void writeFFTSamples(osx_sound_output *SoundOutput)
 {
-    
 	SoundOutput->SoundBuffer.Waveform.FFTSampleCount = 2048;
     
     s16 *ReadFrom = SoundOutput->SoundBuffer.Samples;

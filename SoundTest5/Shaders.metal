@@ -49,7 +49,7 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
     
     if(!(out.position.x == 0.0f && out.position.y == 0.0f))
     {
-        // Scale the waveform
+        // Scale the waveform on X
         float4x4 waveStretchMatrix = uniforms.waveStretchMatrix;
         if(in.position.x < 0 && in.color[1] == 1.0)
         {
@@ -57,7 +57,7 @@ vertex Vertex basic_vertex(constant Vertex* vertices   [[ buffer(0) ]],
             
             // Hide overhangs
             if((out.position.x >= 0.5) || (out.position.x <=  -0.5))
-            {
+            {                
                 out.position.z = -10;
             }
         }

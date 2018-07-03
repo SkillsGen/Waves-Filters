@@ -276,8 +276,7 @@ int16 ZeroPeakGainBandPassFilter(int unfilteredValue, osx_sound_output *SoundOut
                                           SoundOutput->SoundBuffer.SamplesPerSecond);
         FilterParams->cosw0 = cos(FilterParams->w0);
         FilterParams->sinw0 = sin(FilterParams->w0);
-        
-        
+                
         FilterParams->alpha = (FilterParams->sinw0 *
                                sinh((log(2)/2) * FilterParams->Q * (FilterParams->sinw0 / 2)));
         FilterParams->a0 = 1 + FilterParams->alpha;
