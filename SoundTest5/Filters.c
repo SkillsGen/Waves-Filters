@@ -41,6 +41,7 @@ int16 Filter(int UnfilteredValue, osx_sound_output *SoundOutput)
             break;
         case ZeroPeakGainBandPass:
             FilteredValue = ZeroPeakGainBandPassFilter(UnfilteredValue, SoundOutput, &FilterParams);
+            break;
         case Notch:
             FilteredValue = NotchFilter(UnfilteredValue, SoundOutput, &FilterParams);
             break;

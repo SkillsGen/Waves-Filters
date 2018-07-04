@@ -48,7 +48,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="OdE-Le-4gU">
-                                <rect key="frame" x="117" y="427" width="293" height="30"/>
+                                <rect key="frame" x="117" y="460" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
                         </subviews>

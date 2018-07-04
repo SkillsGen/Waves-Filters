@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         metalLayer.device = device
         metalLayer.pixelFormat = .bgra8Unorm
         metalLayer.framebufferOnly = false
-        metalLayer.frame = CGRect(x: 0, y: 0, width: view.layer.frame.width, height: view.layer.frame.height/2)
+        metalLayer.frame = CGRect(x: 0, y: 20, width: view.layer.frame.width, height: view.layer.frame.height/2)
         view.layer.addSublayer(metalLayer)
         
         let dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
