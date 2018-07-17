@@ -3,16 +3,112 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "ViewController.soundLoopAndRender():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "writeWaveform:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "writeFFTSamples:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "ToneSlider.Value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawFFT():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
+            </PersistentString>
             <PersistentString
                value = "(tracePointer + Int(traceIndex)).pointee">
             </PersistentString>
             <PersistentString
                value = "totalVertices * 8">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
+               value = "self.vertexData.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawWaveForm():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "waveform">
+            </PersistentString>
+            <PersistentString
+               value = "view.layer.sublayers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.GenVertices():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.vertexData.count">
+            </PersistentString>
+            <PersistentString
+               value = "totalVertices">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UIDialGestureRecogniser.touchesMoved(_:with:):UIDialGestureRecogniser.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "abs(touchPoint.y - lastTouchPoint.y)">
+            </PersistentString>
+            <PersistentString
+               value = "lastTouchPoint">
+            </PersistentString>
+            <PersistentString
+               value = "abs(touchPoint.x - lastTouchPoint.x)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UIDialGestureRecogniser.updateAngle(with:):UIDialGestureRecogniser.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view">
+            </PersistentString>
+            <PersistentString
+               value = "view.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "writeSineWave:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
+            </PersistentString>
+            <PersistentString
+               value = "WaveformParams">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -23,6 +119,20 @@
                value = "SoundOutput.pointee">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SetupAndRun:main.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "writeSawtoothWave:Waveforms.c">
+      </ContextState>
+      <ContextState
+         contextName = "writeSquareWave:main.c">
       </ContextState>
       <ContextState
          contextName = "fastFourierTransform:main.c">
@@ -45,59 +155,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSineWave:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize)">
-            </PersistentString>
-            <PersistentString
-               value = "WaveformParams">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SetupAndRun:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeFFTSamples:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput-&gt;CoreAudioBuffer + SoundOutput-&gt;SoundBufferSize">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.viewDidLoad():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.vertexData.count">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "WriteSamples:main.c">
       </ContextState>
       <ContextState
-         contextName = "ViewController.drawWaveForm():ViewController.swift">
+         contextName = "BiQuadLowPassFilter:main.c">
          <PersistentStrings>
             <PersistentString
-               value = "waveform">
-            </PersistentString>
-            <PersistentString
-               value = "view.layer.sublayers">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "mach_msg_trap:(null)">
-         <PersistentStrings>
-            <PersistentString
-               value = "ToneSlider.Value">
+               value = "FilterParams">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -120,45 +184,6 @@
                value = "SamplesRead - SoundOutput-&gt;SoundBuffer.Samples">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.GenVertices():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.vertexData.count">
-            </PersistentString>
-            <PersistentString
-               value = "totalVertices">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.soundLoopAndRender():ViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "writeSquareWave:main.c">
-      </ContextState>
-      <ContextState
-         contextName = "BiQuadLowPassFilter:main.c">
-         <PersistentStrings>
-            <PersistentString
-               value = "FilterParams">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeSawtoothWave:Waveforms.c">
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.drawFFT():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "SoundOutput.pointee">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "writeWaveform:main.c">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

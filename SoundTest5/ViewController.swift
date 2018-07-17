@@ -42,9 +42,22 @@ class ViewController: UIViewController {
     
     var vertexData: [Float] = []
     
+    var freqDialView: UIDialImageView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        let backgroundView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20, width: self.view.frame.width, height: self.view.frame.height/2))
+        backgroundView.image = #imageLiteral(resourceName: "Background")
+        self.view.addSubview(backgroundView)
+
+        freqDialView = UIDialImageView(frame: CGRect(x: 103, y: (self.view.frame.height - 110), width: 60, height: 60), viewForGesture: self.view)
+        freqDialView.image = #imageLiteral(resourceName: "FreqDial 258-165")
+        self.view.addSubview(freqDialView)
+        
         totalVertices = self.gridVertices + self.traceVertices * 2
         self.vertexData = Array(repeating: 0.0, count: ((totalVertices) * floatsPerVertex))
         
@@ -61,6 +74,7 @@ class ViewController: UIViewController {
         timer.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
     }
     
+   
     
     func SetupMetal()
     {
