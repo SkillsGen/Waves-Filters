@@ -25,10 +25,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.drawFFT():ViewController.swift">
+         contextName = "ViewController.GenVertices():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "SoundOutput.pointee">
+               value = "self.vertexData.count">
+            </PersistentString>
+            <PersistentString
+               value = "totalVertices">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -36,13 +39,13 @@
          contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
+               value = "totalVertices * 8">
             </PersistentString>
             <PersistentString
                value = "(tracePointer + Int(traceIndex)).pointee">
             </PersistentString>
             <PersistentString
-               value = "totalVertices * 8">
+               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -50,7 +53,16 @@
          contextName = "ViewController.viewDidLoad():ViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "580 * yScale">
+            </PersistentString>
+            <PersistentString
+               value = "self.view.frame.height">
+            </PersistentString>
+            <PersistentString
                value = "self.vertexData.count">
+            </PersistentString>
+            <PersistentString
+               value = "self.view.frame.height - (165 * yScale)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -66,17 +78,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.GenVertices():ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.vertexData.count">
-            </PersistentString>
-            <PersistentString
-               value = "totalVertices">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "UIDialGestureRecogniser.touchesMoved(_:with:):UIDialGestureRecogniser.swift">
          <PersistentStrings>
             <PersistentString
@@ -87,6 +88,14 @@
             </PersistentString>
             <PersistentString
                value = "abs(touchPoint.x - lastTouchPoint.x)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.drawFFT():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "SoundOutput.pointee">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -132,7 +141,7 @@
          contextName = "writeSawtoothWave:Waveforms.c">
       </ContextState>
       <ContextState
-         contextName = "writeSquareWave:main.c">
+         contextName = "WriteSamples:main.c">
       </ContextState>
       <ContextState
          contextName = "fastFourierTransform:main.c">
@@ -155,7 +164,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "WriteSamples:main.c">
+         contextName = "writeSquareWave:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "main:AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xScale">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "BiQuadLowPassFilter:main.c">

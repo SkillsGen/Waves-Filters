@@ -38,15 +38,6 @@
                                     <action selector="FilterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tai-W7-JlL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-Ig-NJq">
-                                <rect key="frame" x="173" y="729" width="322" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Sine"/>
-                                <connections>
-                                    <action selector="WaveformButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YEH-hE-Rq6"/>
-                                </connections>
-                            </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="OdE-Le-4gU">
                                 <rect key="frame" x="117" y="460" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -60,7 +51,6 @@
                         <outlet property="FilterCutoffSlider" destination="CC5-yK-5IM" id="L4k-9c-1cg"/>
                         <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
                         <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>
-                        <outlet property="WaveformButton" destination="2kc-Ig-NJq" id="HTO-Rx-m91"/>
                         <outlet property="waveFormScalingXSlider" destination="OdE-Le-4gU" id="rAu-5X-RMV"/>
                     </connections>
                 </viewController>

@@ -42,19 +42,82 @@ class ViewController: UIViewController {
     
     var vertexData: [Float] = []
     
+    var waveButtonView: UIImageView!
+    var filterButtonView: UIImageView!
+    var BGBottomView: UIImageView!
     var freqDialView: UIDialImageView!
 
+    @objc func waveButtonTapped(sender: waveButton) {
+        switch sender.waveform {
+        case Sine:
+            self.WaveformType = Sine
+            waveButtonView.image = #imageLiteral(resourceName: "WB Sine 1366-580")
+        case Triangle:
+            self.WaveformType = Triangle
+            waveButtonView.image = #imageLiteral(resourceName: "WB Triangle 1366-580")
+        case Noise:
+            self.WaveformType = Noise
+            waveButtonView.image = #imageLiteral(resourceName: "WB Noise 1366-580")
+        case Square:
+            self.WaveformType = Square
+            waveButtonView.image = #imageLiteral(resourceName: "WB Square 1366-580")
+        case Sawtooth:
+            self.WaveformType = Sawtooth
+            waveButtonView.image = #imageLiteral(resourceName: "WB Saw 1366-580")
+        default:
+            self.WaveformType = Sine
+            waveButtonView.image = #imageLiteral(resourceName: "WB Sine 1366-580")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
+        let xScale = self.view.frame.width / 2732
+        let yScale = self.view.frame.height / 2048
         
-        let backgroundView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20, width: self.view.frame.width, height: self.view.frame.height/2))
-        backgroundView.image = #imageLiteral(resourceName: "Background")
-        self.view.addSubview(backgroundView)
+        waveButtonView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20, width: self.view.frame.width/2, height: 580 * yScale))
+        waveButtonView.contentMode = .scaleAspectFit
+        waveButtonView.image = #imageLiteral(resourceName: "WB Sine 1366-580")
+        self.view.addSubview(waveButtonView)
+        
+        let signButton = waveButton(waveform: Sine)
+        signButton.frame = CGRect(x: 145 * xScale, y: self.view.frame.height - 762 * yScale, width: 144 * xScale, height: 130 * yScale)
+        signButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
+        self.view.addSubview(signButton)
+        
+        let triangleButton = waveButton(waveform: Triangle)
+        triangleButton.frame = CGRect(x: (145 + 136) * xScale, y: self.view.frame.height - 762 * yScale, width: 144 * xScale, height: 130 * yScale)
+        triangleButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
+        self.view.addSubview(triangleButton)
+        
+        let noiseButton = waveButton(waveform: Noise)
+        noiseButton.frame = CGRect(x: (145 + 136 + 132) * xScale, y: self.view.frame.height - 762 * yScale, width: 144 * xScale, height: 130 * yScale)
+        noiseButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
+        self.view.addSubview(noiseButton)
+        
+        let squareButton = waveButton(waveform: Square)
+        squareButton.frame = CGRect(x: 145 * xScale, y: self.view.frame.height - (762 - 130) * yScale, width: 144 * xScale, height: 130 * yScale)
+        squareButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
+        self.view.addSubview(squareButton)
+        
+        let sawButton = waveButton(waveform: Sawtooth)
+        sawButton.frame = CGRect(x: (145 + 136) * xScale, y: self.view.frame.height - (762 - 130) * yScale, width: 144 * xScale, height: 130 * yScale)
+        sawButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
+        self.view.addSubview(sawButton)
+        
+        filterButtonView = UIImageView(frame: CGRect(x: self.view.frame.width/2, y: self.view.frame.height/2 + 20, width: self.view.frame.width/2, height: 580 * yScale))
+        filterButtonView.contentMode = .scaleAspectFit
+        filterButtonView.image = #imageLiteral(resourceName: "FilterButtons 1366-580")
+        self.view.addSubview(filterButtonView)
+        
+        BGBottomView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20 + (580 * yScale), width: self.view.frame.width, height: 395 * yScale))
+        BGBottomView.contentMode = .scaleAspectFill
+        BGBottomView.image = #imageLiteral(resourceName: "BG Bottom - 2732-424")
+        self.view.addSubview(BGBottomView)
 
-        freqDialView = UIDialImageView(frame: CGRect(x: 103, y: (self.view.frame.height - 110), width: 60, height: 60), viewForGesture: self.view)
+        freqDialView = UIDialImageView(frame: CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale), viewForGesture: self.view)
         freqDialView.image = #imageLiteral(resourceName: "FreqDial 258-165")
         self.view.addSubview(freqDialView)
         
@@ -357,29 +420,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var QSlider: UISlider!
     @IBOutlet weak var waveFormScalingXSlider: UISlider!
     
-    @IBOutlet weak var WaveformButton: UIButton!
-    @IBAction func WaveformButtonTapped(_ sender: UIButton) {
-        switch WaveformType {
-        case Sine:
-            WaveformType = Square
-            WaveformButton.setTitle("Square", for: .normal)
-        case Square:
-            WaveformType = Sawtooth
-            WaveformButton.setTitle("SawTooth", for: .normal)
-        case Sawtooth:
-            WaveformType = Triangle
-            WaveformButton.setTitle("Triangle", for: .normal)
-        case Triangle:
-            WaveformType = Noise
-            WaveformButton.setTitle("Noise", for: .normal)
-        case Noise:
-            WaveformType = Sine
-            WaveformButton.setTitle("Sine", for: .normal)
-        default:
-            WaveformType = Sine
-            WaveformButton.setTitle("Sine", for: .normal)
-        }
-    }
     
     @IBOutlet weak var FilterButton: UIButton!
     @IBAction func FilterButtonTapped(_ sender: Any) {
@@ -420,5 +460,19 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+}
+
+class waveButton: UIButton {
+    var waveform: waveform_type
+    
+    init(waveform: waveform_type) {
+        self.waveform = waveform
+        super.init(frame: .zero)
+        print(self.buttonType)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
