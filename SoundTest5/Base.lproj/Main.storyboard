@@ -30,14 +30,6 @@
                                 <rect key="frame" x="6" y="661" width="1100" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGG-eE-33g">
-                                <rect key="frame" x="694" y="733" width="200" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="No Filter"/>
-                                <connections>
-                                    <action selector="FilterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tai-W7-JlL"/>
-                                </connections>
-                            </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="OdE-Le-4gU">
                                 <rect key="frame" x="117" y="460" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -47,7 +39,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="FilterButton" destination="WGG-eE-33g" id="7xE-do-uWy"/>
                         <outlet property="FilterCutoffSlider" destination="CC5-yK-5IM" id="L4k-9c-1cg"/>
                         <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
                         <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>

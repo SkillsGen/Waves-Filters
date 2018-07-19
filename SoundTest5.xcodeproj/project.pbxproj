@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2029470120E24BF300A713A8 /* MatrixHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2029470020E24BF300A713A8 /* MatrixHelpers.swift */; };
 		2029470320E24C1000A713A8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2029470220E24C1000A713A8 /* Shaders.metal */; };
+		208F4F1B20FF5CF7005837A9 /* CustomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208F4F1A20FF5CF7005837A9 /* CustomButtons.swift */; };
 		20CEF75920FDF55600170D39 /* UIDialGestureRecogniser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CEF75820FDF55600170D39 /* UIDialGestureRecogniser.swift */; };
 		20CEF75B20FE24D400170D39 /* UIDialImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CEF75A20FE24D400170D39 /* UIDialImageView.swift */; };
 		20EFA2DF205FC06C009FF1C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EFA2DE205FC06C009FF1C0 /* AppDelegate.swift */; };
@@ -24,6 +25,7 @@
 		2029470220E24C1000A713A8 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		20412750208A06AE005BA45B /* Filters.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Filters.c; sourceTree = "<group>"; };
 		2043C2E2208B322C00E7A23F /* Waveforms.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Waveforms.c; sourceTree = "<group>"; };
+		208F4F1A20FF5CF7005837A9 /* CustomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtons.swift; sourceTree = "<group>"; };
 		20CEF75820FDF55600170D39 /* UIDialGestureRecogniser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDialGestureRecogniser.swift; sourceTree = "<group>"; };
 		20CEF75A20FE24D400170D39 /* UIDialImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDialImageView.swift; sourceTree = "<group>"; };
 		20D38C552061043A0021A938 /* Main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Main.h; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				20412750208A06AE005BA45B /* Filters.c */,
 				20EFA2DE205FC06C009FF1C0 /* AppDelegate.swift */,
 				20EFA2E0205FC06C009FF1C0 /* ViewController.swift */,
+				208F4F1A20FF5CF7005837A9 /* CustomButtons.swift */,
 				20CEF75820FDF55600170D39 /* UIDialGestureRecogniser.swift */,
 				20CEF75A20FE24D400170D39 /* UIDialImageView.swift */,
 				2029470020E24BF300A713A8 /* MatrixHelpers.swift */,
@@ -165,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				208F4F1B20FF5CF7005837A9 /* CustomButtons.swift in Sources */,
 				20EFA2F8205FC184009FF1C0 /* main.c in Sources */,
 				20EFA2E1205FC06C009FF1C0 /* ViewController.swift in Sources */,
 				20CEF75B20FE24D400170D39 /* UIDialImageView.swift in Sources */,
