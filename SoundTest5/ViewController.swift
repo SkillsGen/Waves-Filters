@@ -106,9 +106,9 @@ class ViewController: UIViewController {
     @objc func soundLoopAndRender() {
         self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
         self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
-        self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.ToneSlider.value)
-        self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.FilterCutoffSlider.value)
-        self.SoundOutput?.pointee.SoundBuffer.Q = self.QSlider.value
+        self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.freqDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.cutDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.Q = self.qDialView.value
         
         WriteSamples(self.SoundOutput)
         
@@ -343,11 +343,16 @@ class ViewController: UIViewController {
     //
     //interface
     //
+    @IBOutlet weak var waveFormScalingXSlider: UISlider!
+    
     var waveButtonView: UIImageView!
     var filterButtonView: UIImageView!
     var BGBottomView: UIImageView!
     var freqDialView: UIDialImageView!
-
+    var gainDialView: UIDialImageView!
+    var cutDialView: UIDialImageView!
+    var qDialView: UIDialImageView!
+    
     func setupUI() {
         let xScale = self.view.frame.width / 2732
         let yScale = self.view.frame.height / 2048
@@ -432,9 +437,25 @@ class ViewController: UIViewController {
         BGBottomView.image = #imageLiteral(resourceName: "BG Bottom - 2732-424")
         self.view.addSubview(BGBottomView)
         
-        freqDialView = UIDialImageView(frame: CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale), viewForGesture: self.view)
+        let freqDialFrame: CGRect = CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        freqDialView = UIDialImageView(frame: freqDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000)
         freqDialView.image = #imageLiteral(resourceName: "FreqDial 258-165")
         self.view.addSubview(freqDialView)
+        
+        let gainDialFrame: CGRect = CGRect(x: 573 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        gainDialView = UIDialImageView(frame: gainDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000)
+        gainDialView.image = #imageLiteral(resourceName: "GainDial 574-171")
+        self.view.addSubview(gainDialView)
+        
+        let cutDialFrame: CGRect = CGRect(x: 1620 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        cutDialView = UIDialImageView(frame: cutDialFrame, viewForGesture: self.view, angleMinOffset: -1.42, valMin: 10, valMax: 20000)
+        cutDialView.image = #imageLiteral(resourceName: "CutDial 1619-169")
+        self.view.addSubview(cutDialView)
+        
+        let qDialFrame: CGRect = CGRect(x: 1931 * xScale, y: (self.view.frame.height - ((150 + 158) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        qDialView = UIDialImageView(frame: qDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 0.01, valMax: 10)
+        qDialView.image = #imageLiteral(resourceName: "QDial 1937-174")
+        self.view.addSubview(qDialView)
     }
     
     @objc func waveButtonTapped(sender: waveButton) {
@@ -482,11 +503,6 @@ class ViewController: UIViewController {
             filterButtonView.image = #imageLiteral(resourceName: "FB No 1366-580")
         }
     }
-    
-    @IBOutlet weak var ToneSlider: UISlider!
-    @IBOutlet weak var FilterCutoffSlider: UISlider!
-    @IBOutlet weak var QSlider: UISlider!
-    @IBOutlet weak var waveFormScalingXSlider: UISlider!
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

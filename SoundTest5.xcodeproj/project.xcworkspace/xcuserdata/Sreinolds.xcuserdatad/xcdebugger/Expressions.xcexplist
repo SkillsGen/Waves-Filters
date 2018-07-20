@@ -39,13 +39,13 @@
          contextName = "ViewController.GenTraceVertices(tracePointer:traceCount:traceIndex:Width:Height:xOffset:yOffset:yScale:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
+            </PersistentString>
+            <PersistentString
                value = "totalVertices * 8">
             </PersistentString>
             <PersistentString
                value = "(tracePointer + Int(traceIndex)).pointee">
-            </PersistentString>
-            <PersistentString
-               value = "Float((tracePointer + Int(traceIndex)).pointee) / yScale + yOffset">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -53,10 +53,10 @@
          contextName = "ViewController.viewDidLoad():ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "580 * yScale">
+               value = "self.view.frame.height">
             </PersistentString>
             <PersistentString
-               value = "self.view.frame.height">
+               value = "580 * yScale">
             </PersistentString>
             <PersistentString
                value = "self.vertexData.count">
@@ -122,6 +122,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "UIDialImageView.updateAngle(_:):UIDialImageView.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ViewController.viewDidLoad():ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -164,13 +167,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "writeSquareWave:main.c">
-      </ContextState>
-      <ContextState
          contextName = "main:AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
                value = "xScale">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "writeSquareWave:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "UIDialImageView.updateAngleAndValue(_:):UIDialImageView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Float(self.angle + 0.22) * ((3.0 - -0.22) / 18000)">
+            </PersistentString>
+            <PersistentString
+               value = "Float(self.angle + self.angleMinOffset) * (self.valMax / 3.14) + self.valMin">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

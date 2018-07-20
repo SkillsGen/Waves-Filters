@@ -18,18 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="440" minValue="40" maxValue="18000" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-WI-IEd">
-                                <rect key="frame" x="8" y="541" width="1096" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="20000" minValue="10" maxValue="20000" translatesAutoresizingMaskIntoConstraints="NO" id="CC5-yK-5IM">
-                                <rect key="frame" x="-2" y="601" width="1116" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" minValue="0.01" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="po5-T2-Cby">
-                                <rect key="frame" x="6" y="661" width="1100" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="OdE-Le-4gU">
                                 <rect key="frame" x="117" y="460" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -39,9 +27,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="FilterCutoffSlider" destination="CC5-yK-5IM" id="L4k-9c-1cg"/>
-                        <outlet property="QSlider" destination="po5-T2-Cby" id="2uM-n7-vtn"/>
-                        <outlet property="ToneSlider" destination="5bI-WI-IEd" id="zfa-51-l52"/>
                         <outlet property="waveFormScalingXSlider" destination="OdE-Le-4gU" id="rAu-5X-RMV"/>
                     </connections>
                 </viewController>
