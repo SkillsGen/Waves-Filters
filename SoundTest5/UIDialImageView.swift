@@ -19,7 +19,7 @@ class UIDialImageView: UIImageView {
     var initialAngle: CGFloat = -0.22
     var angle: CGFloat = -0.22
     
-    init(frame: CGRect, viewForGesture: UIView, angleMinOffset: CGFloat, valMin: Float, valMax: Float) {
+    init(frame: CGRect, viewForGesture: UIView, angleMinOffset: CGFloat, valMin: Float, valMax: Float, initialValue: Float) {
         self.viewForGesture = viewForGesture
         self.angleMinOffset = angleMinOffset
         
@@ -33,10 +33,23 @@ class UIDialImageView: UIImageView {
         self.addGestureRecognizer(freqDialGesture)
         self.isUserInteractionEnabled = true
         
-        updateAngleAndValue(angleMinOffset)
+        updateByValue(initialValue)
     }
     
-    func updateAngleAndValue(_ angle: CGFloat) {
+    func updateByValue(_ value: Float) {
+        if value < self.valMin {
+            self.value = self.valMin
+        } else if value > self.valMax {
+            self.value = self.valMax
+        } else {
+            self.value = value
+        }
+        self.angle = CGFloat((self.value - self.valMin) * (3.14 / valMax) + Float(self.angleMinOffset))
+        self.initialAngle = self.angle
+        self.transform = CGAffineTransform(rotationAngle: self.angle)
+    }
+    
+    func updateByAngle(_ angle: CGFloat) {
         if angle < self.angleMinOffset {
             self.angle = self.angleMinOffset
         } else if angle > self.angleMinOffset + 3.14 {
@@ -44,15 +57,15 @@ class UIDialImageView: UIImageView {
         } else {
             self.angle = angle
         }
-        self.transform = CGAffineTransform(rotationAngle: self.angle)
-        
         self.value = Float(self.angle - self.angleMinOffset) * (self.valMax / 3.14) + self.valMin
+        
+        self.transform = CGAffineTransform(rotationAngle: self.angle)
     }
     
     @objc func dialGesture(_ gesture: UIPanGestureRecognizer) {
         let newAngle = gesture.translation(in: self.viewForGesture).y / -50
         
-        updateAngleAndValue(self.initialAngle + newAngle)
+        updateByAngle(self.initialAngle + newAngle)
         
         if gesture.state == .ended {
             self.initialAngle = self.angle

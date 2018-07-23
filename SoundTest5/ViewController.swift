@@ -57,6 +57,12 @@ class ViewController: UIViewController {
         SetupMetal()
         SoundOutput = SetupAndRun()
         self.SoundOutput?.pointee.SoundBuffer.FPS = FPS
+        self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
+        self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
+        self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.freqDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.Gain = Int32(self.gainDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.cutDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.Q = self.qDialView.value
         
         WriteSamples(SoundOutput)          // Why is this needed?
         
@@ -107,6 +113,7 @@ class ViewController: UIViewController {
         self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
         self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
         self.SoundOutput?.pointee.SoundBuffer.ToneHz = Int32(self.freqDialView.value)
+        self.SoundOutput?.pointee.SoundBuffer.Gain = Int32(self.gainDialView.value)
         self.SoundOutput?.pointee.SoundBuffer.FilterFrequency = Int32(self.cutDialView.value)
         self.SoundOutput?.pointee.SoundBuffer.Q = self.qDialView.value
         
@@ -438,22 +445,22 @@ class ViewController: UIViewController {
         self.view.addSubview(BGBottomView)
         
         let freqDialFrame: CGRect = CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
-        freqDialView = UIDialImageView(frame: freqDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000)
+        freqDialView = UIDialImageView(frame: freqDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000, initialValue: 200)
         freqDialView.image = #imageLiteral(resourceName: "FreqDial 258-165")
         self.view.addSubview(freqDialView)
         
         let gainDialFrame: CGRect = CGRect(x: 573 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
-        gainDialView = UIDialImageView(frame: gainDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000)
+        gainDialView = UIDialImageView(frame: gainDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 100, valMax: 2000, initialValue: 1000)
         gainDialView.image = #imageLiteral(resourceName: "GainDial 574-171")
         self.view.addSubview(gainDialView)
         
         let cutDialFrame: CGRect = CGRect(x: 1620 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
-        cutDialView = UIDialImageView(frame: cutDialFrame, viewForGesture: self.view, angleMinOffset: -1.42, valMin: 10, valMax: 20000)
+        cutDialView = UIDialImageView(frame: cutDialFrame, viewForGesture: self.view, angleMinOffset: -1.42, valMin: 10, valMax: 15000, initialValue: -1.42)
         cutDialView.image = #imageLiteral(resourceName: "CutDial 1619-169")
         self.view.addSubview(cutDialView)
         
         let qDialFrame: CGRect = CGRect(x: 1931 * xScale, y: (self.view.frame.height - ((150 + 158) * yScale)), width: 143 * xScale, height: 148 * yScale)
-        qDialView = UIDialImageView(frame: qDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 0.01, valMax: 10)
+        qDialView = UIDialImageView(frame: qDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 0.5, valMax: 10, initialValue: -0.22)
         qDialView.image = #imageLiteral(resourceName: "QDial 1937-174")
         self.view.addSubview(qDialView)
     }
