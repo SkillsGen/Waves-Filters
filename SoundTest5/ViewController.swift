@@ -56,6 +56,10 @@ class ViewController: UIViewController {
         
         SetupMetal()
         SoundOutput = SetupAndRun()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.SoundOutput = SoundOutput
+            
         self.SoundOutput?.pointee.SoundBuffer.FPS = FPS
         self.SoundOutput?.pointee.SoundBuffer.WaveformType = self.WaveformType
         self.SoundOutput?.pointee.SoundBuffer.FilterType = self.FilterType
@@ -364,7 +368,7 @@ class ViewController: UIViewController {
         let xScale = self.view.frame.width / 2732
         let yScale = self.view.frame.height / 2048
         
-        waveButtonView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20, width: self.view.frame.width/2, height: 580 * yScale))
+        waveButtonView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 10, width: self.view.frame.width/2, height: 580 * yScale))
         waveButtonView.contentMode = .scaleAspectFit
         waveButtonView.image = #imageLiteral(resourceName: "WB Sine 1366-580")
         self.view.addSubview(waveButtonView)
@@ -394,7 +398,7 @@ class ViewController: UIViewController {
         sawButton.addTarget(self, action: #selector(waveButtonTapped), for: .touchUpInside)
         self.view.addSubview(sawButton)
         
-        filterButtonView = UIImageView(frame: CGRect(x: self.view.frame.width/2, y: self.view.frame.height/2 + 20, width: self.view.frame.width/2, height: 580 * yScale))
+        filterButtonView = UIImageView(frame: CGRect(x: self.view.frame.width/2, y: self.view.frame.height/2 + 10, width: self.view.frame.width/2, height: 580 * yScale))
         filterButtonView.contentMode = .scaleAspectFit
         filterButtonView.image = #imageLiteral(resourceName: "FilterButtons 1366-580")
         self.view.addSubview(filterButtonView)
@@ -439,27 +443,27 @@ class ViewController: UIViewController {
         notchButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         self.view.addSubview(notchButton)
         
-        BGBottomView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 20 + (580 * yScale), width: self.view.frame.width, height: 395 * yScale))
-        BGBottomView.contentMode = .scaleAspectFill
+        BGBottomView = UIImageView(frame: CGRect(x: 0, y: self.view.frame.height/2 + 10 + (580 * yScale), width: self.view.frame.width, height: 424 * yScale))
+        BGBottomView.contentMode = .scaleAspectFit
         BGBottomView.image = #imageLiteral(resourceName: "BG Bottom - 2732-424")
         self.view.addSubview(BGBottomView)
         
-        let freqDialFrame: CGRect = CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        let freqDialFrame: CGRect = CGRect(x: 258 * xScale, y: (self.view.frame.height - ((150 + 160) * yScale)), width: 143 * xScale, height: 148 * yScale)
         freqDialView = UIDialImageView(frame: freqDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 40, valMax: 6000, initialValue: 200)
         freqDialView.image = #imageLiteral(resourceName: "FreqDial 258-165")
         self.view.addSubview(freqDialView)
         
-        let gainDialFrame: CGRect = CGRect(x: 573 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        let gainDialFrame: CGRect = CGRect(x: 573 * xScale, y: (self.view.frame.height - ((150 + 157) * yScale)), width: 143 * xScale, height: 148 * yScale)
         gainDialView = UIDialImageView(frame: gainDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 100, valMax: 2000, initialValue: 1000)
         gainDialView.image = #imageLiteral(resourceName: "GainDial 574-171")
         self.view.addSubview(gainDialView)
         
-        let cutDialFrame: CGRect = CGRect(x: 1620 * xScale, y: (self.view.frame.height - ((150 + 148) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        let cutDialFrame: CGRect = CGRect(x: 1620 * xScale, y: (self.view.frame.height - ((150 + 158) * yScale)), width: 143 * xScale, height: 148 * yScale)
         cutDialView = UIDialImageView(frame: cutDialFrame, viewForGesture: self.view, angleMinOffset: -1.42, valMin: 10, valMax: 15000, initialValue: -1.42)
         cutDialView.image = #imageLiteral(resourceName: "CutDial 1619-169")
         self.view.addSubview(cutDialView)
         
-        let qDialFrame: CGRect = CGRect(x: 1931 * xScale, y: (self.view.frame.height - ((150 + 158) * yScale)), width: 143 * xScale, height: 148 * yScale)
+        let qDialFrame: CGRect = CGRect(x: 1933 * xScale, y: (self.view.frame.height - ((150 + 162) * yScale)), width: 143 * xScale, height: 148 * yScale)
         qDialView = UIDialImageView(frame: qDialFrame, viewForGesture: self.view, angleMinOffset: -0.22, valMin: 0.5, valMax: 10, initialValue: -0.22)
         qDialView.image = #imageLiteral(resourceName: "QDial 1937-174")
         self.view.addSubview(qDialView)

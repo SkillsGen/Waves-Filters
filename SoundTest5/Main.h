@@ -130,5 +130,6 @@ typedef struct osx_sound_output
 
 osx_sound_output * SetupAndRun(void);
 float WriteSamples(osx_sound_output *SoundOutput);
+void OSXStopCoreAudio(osx_sound_output* SoundOutput);
 
 #endif /* Main_h */

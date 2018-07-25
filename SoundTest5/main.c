@@ -97,6 +97,11 @@ void OSXStopCoreAudio(osx_sound_output* SoundOutput)
     AudioOutputUnitStop(SoundOutput->AudioUnit);
     AudioUnitUninitialize(SoundOutput->AudioUnit);
     AudioComponentInstanceDispose(SoundOutput->AudioUnit);
+    
+    free(SoundOutput->SoundBuffer.Samples);
+    free(SoundOutput->CoreAudioBuffer);
+    free(SoundOutput->SoundBuffer.Waveform.WaveformArray);
+    free(SoundOutput->SoundBuffer.Waveform.FFTArray);
 }
 
 

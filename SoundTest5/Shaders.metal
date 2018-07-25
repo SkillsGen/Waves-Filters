@@ -108,7 +108,7 @@ kernel void compute_shader(texture2d<float, access::read> grid    [[ texture(0) 
                            uint2 gid                              [[ thread_position_in_grid ]])
 {
     float4 gridColor = grid.read(gid);
-    float4 traceColor = trace.read(gid) * 5;          //Make blurred trace brighter
+    float4 traceColor = trace.read(gid) * 4;          //Make blurred trace brighter
     float4 resultColor = gridColor + traceColor;
     
     dest.write(resultColor, gid);
